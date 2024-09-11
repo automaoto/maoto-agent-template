@@ -36,7 +36,9 @@ def audio_to_text(actioncall: Actioncall, parameters) -> str:
     try:
         audio_file = maoto_resolver.download_missing_files([audio_file_id])[0]
         new_audio_file_path = (maoto_resolver.download_dir / str(audio_file.get_file_id())).with_suffix(audio_file.get_extension())
-        new_file_path = (Path("text_outputs") / str(uuid.uuid4())).with_suffix(".txt")
+        text_outputs_dir = Path("text_outputs")
+        text_outputs_dir.mkdir(exist_ok=True)
+        new_file_path = (text_outputs_dir / str(uuid.uuid4())).with_suffix(".txt")
 
         # Simulate conversion
         new_text_file_path = maoto_resolver.working_dir / new_file_path
