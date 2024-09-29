@@ -5,6 +5,8 @@ __pycache__/
 .DS_Store
 *.DS_Store
 
+work_dir_provider/
+work_dir_resolver/
 
 *.env
 *.secrets
