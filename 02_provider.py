@@ -1,17 +1,22 @@
 from maoto_agent import *
 from dotenv import load_dotenv
 
-load_dotenv('.secrets_02') # Should contain OPENAI_API_KEY and MAOTO_API_KEY
+load_dotenv('.secrets_provider') # Should contain MAOTO_API_KEY
 
-if __name__ == "__main__":
-    personal_assistant = PersonalAssistant(working_dir="./work_dir_provider")
+agent = Maoto()
 
-    # Test the audio_to_text action
-    personal_assistant.run(
-        input_text="I want to convert the speech into text.",
-        attachment_path="./test_audiofile.mp3"
-    )
-    while True:
-        personal_assistant.run(
-            input_text=input("Prompt: ")
-        )
+@agent.register_response_handler()
+async def response_handler(response: Response):
+    print(f"Received response:{response}")
+
+
+
+uploaded_files = agent.upload_files([Path("./test_audiofile.mp3")])
+
+# create a single uuid and get it as a string
+new_post = agent.create_posts(NewPost(
+    description="Book a grab for me please!",
+    context=""
+))
+
+time.sleep(5)
