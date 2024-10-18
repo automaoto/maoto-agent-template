@@ -7,7 +7,7 @@ agent = Maoto(logging_level=logging.WARNING)
 
 @agent.register_history_handler()
 async def history_handler(historyelement: HistoryElement):
-    print(f"Received history element:{historyelement}\n")
+    print(f"PA Answer: {historyelement.get_text()}\n")
 
 historyelement = None
 while True:
