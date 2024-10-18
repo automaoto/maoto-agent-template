@@ -1,3 +1,4 @@
+from time import sleep
 from maoto_agent import *
 import numpy as np
 import shutil
@@ -30,31 +31,36 @@ agent = Maoto()
 # def bid_audio_to_text(actioncall: Actioncall) -> float:
 #     return 1.0
 
-@agent.register_action_handler("audio_to_text")
-def audio_to_text(actioncall: Actioncall, parameters) -> str:
+# @agent.register_action_handler("audio_to_text")
+# def audio_to_text(actioncall: Actioncall, parameters) -> str:
     
-    audio_file_id = json.loads(parameters)['audio_file_id']
-    try:
-        audio_file = agent.download_missing_files([audio_file_id])[0]
-        new_audio_file_path = (agent.download_dir / str(audio_file.get_file_id())).with_suffix(audio_file.get_extension())
-        text_outputs_dir = Path("text_outputs")
-        text_outputs_dir.mkdir(exist_ok=True)
-        new_file_path = (text_outputs_dir / str(uuid.uuid4())).with_suffix(".txt")
+#     audio_file_id = json.loads(parameters)['audio_file_id']
+#     try:
+#         audio_file = agent.download_missing_files([audio_file_id])[0]
+#         new_audio_file_path = (agent.download_dir / str(audio_file.get_file_id())).with_suffix(audio_file.get_extension())
+#         text_outputs_dir = Path("text_outputs")
+#         text_outputs_dir.mkdir(exist_ok=True)
+#         new_file_path = (text_outputs_dir / str(uuid.uuid4())).with_suffix(".txt")
 
-        # Simulate conversion
-        new_text_file_path = agent.working_dir / new_file_path
-        shutil.copy('text_output.txt',  new_text_file_path)
+#         # Simulate conversion
+#         new_text_file_path = agent.working_dir / new_file_path
+#         shutil.copy('text_output.txt',  new_text_file_path)
         
-        text_output_file = agent.upload_files([new_file_path])[0]
+#         text_output_file = agent.upload_files([new_file_path])[0]
 
-        # remove temporary files
-        new_text_file_path.unlink()
-        new_audio_file_path.unlink()
+#         # remove temporary files
+#         new_text_file_path.unlink()
+#         new_audio_file_path.unlink()
 
-        return f"Successfully converted audio file {audio_file_id} to text file {text_output_file.get_file_id()}."
+#         return f"Successfully converted audio file {audio_file_id} to text file {text_output_file.get_file_id()}."
 
-    except Exception as e:
-       return f"Failed to convert audio file {audio_file_id} to text. Try again later."
+#     except Exception as e:
+#        return f"Failed to convert audio file {audio_file_id} to text. Try again later."
+
+@agent.register_action_handler("calendar")
+def calendar(actioncall: Actioncall, parameters) -> str:
+    return "Today is 18. October 2024."
+
 
 # @agent.bid_action_fallback
 # def bid_action_fallback(actioncall: Actioncall) -> float:
@@ -67,21 +73,34 @@ def action_fallback(actioncall: Actioncall, parameters) -> str:
 if __name__ == "__main__":
     created_actions_with_methods = agent.create_actions([
         NewAction(
-            name="audio_to_text",
-            parameters=json.dumps({'audio_file_id': 'str'}),
-            description="Transform audio file to text.",
-            tags=["convert", "audio", "text", "transform", "file"],
+            name="calendar",
+            parameters=json.dumps({}),
+            description="Returns the current date.",
+            tags=["date", "calendar", "info"],
             cost=None,
             followup=False
         )
     ])
-    created_actions_without_methods = agent.create_actions([
-        NewAction(
-            name="research",
-            parameters=json.dumps({'topic': 'str'}),
-            description="Research on a specific topic.",
-            tags=["research", "topic"],
-            cost=1.0,
-            followup=False
-        )
-    ])
+    # created_actions_with_methods = agent.create_actions([
+    #     NewAction(
+    #         name="audio_to_text",
+    #         parameters=json.dumps({'audio_file_id': 'str'}),
+    #         description="Transform audio file to text.",
+    #         tags=["convert", "audio", "text", "transform", "file"],
+    #         cost=None,
+    #         followup=False
+    #     )
+    # ])
+    # created_actions_without_methods = agent.create_actions([
+    #     NewAction(
+    #         name="research",
+    #         parameters=json.dumps({'topic': 'str'}),
+    #         description="Research on a specific topic.",
+    #         tags=["research", "topic"],
+    #         cost=1.0,
+    #         followup=False
+    #     )
+    # ])
+
+
+sleep(1000)

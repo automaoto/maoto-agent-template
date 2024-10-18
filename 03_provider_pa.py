@@ -17,6 +17,5 @@ while True:
         text=input_text,
         #file_ids=[uploaded_file.get_file_id()],
         tree_id=historyelement.get_tree_id() if historyelement is not None else None,
-        parent_id=historyelement.get_history_id() if historyelement is not None else None,
     )
     historyelement = agent.create_historyelements([new_historyelement])[0]
