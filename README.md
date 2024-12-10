@@ -13,6 +13,5 @@ MAOTO_API_KEY=<test_apikey_resolver>
 
 `.secrets_provider`:
 ```bash
-OPENAI_API_KEY=<apikey>
 MAOTO_API_KEY=<test_apikey_provider>
 ```
