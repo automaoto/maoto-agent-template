@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.postgresql.host }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: {{ .Values.global.revisionHistoryLimit }}
+  selector:
+    matchLabels:
+      app: {{ .Values.postgresql.host }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.postgresql.host }}
+    spec:
+      containers:
+        - name: {{ .Values.postgresql.host }}
+          image: {{ .Values.global.dockerRegistry }}{{ .Values.postgresql.host }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.postgresql.port }}
+          env:
+            - name: DEBUG
+              value: "{{ .Values.debug }}"
+      imagePullSecrets:
+        - name: {{ .Values.global.registrySecret }}

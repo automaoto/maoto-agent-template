@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.apiinterfaces.host }}
+spec:
+  replicas: {{ .Values.minReplicas }}
+  revisionHistoryLimit: {{ .Values.global.revisionHistoryLimit }}
+  selector:
+    matchLabels:
+      app: {{ .Values.apiinterfaces.host }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.apiinterfaces.host }}
+    spec:
+      initContainers:
+        - name: wait-for-postgresql
+          image: busybox
+          command: ['sh', '-c', 'until nc -z -v -w30 {{ .Values.postgresql.host }} {{ .Values.postgresql.port }}; do echo waiting for postgres; sleep 5; done']
+      containers:
+        - name: {{ .Values.apiinterfaces.host }}
+          image: {{ .Values.global.dockerRegistry }}{{ .Values.apiinterfaces.host }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.apiinterfaces.port }}
+          env:
+            - name: DEBUG
+              value: "{{ .Values.debug }}"
+      imagePullSecrets:
+        - name: {{ .Values.global.registrySecret }}

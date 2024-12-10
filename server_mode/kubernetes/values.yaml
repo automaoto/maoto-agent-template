@@ -1,0 +1,39 @@
+global:
+  dockerRegistry: ""
+  registrySecret: registry-secret
+  revisionHistoryLimit: 3
+
+image:
+  tag: "latest"
+
+apiinterfaces:
+  host: apiinterfaces
+  port: 8082
+  externalPort: 4000
+
+postgresql:
+  host: databasepostgre
+  port: 5432
+
+debug: "false"
+pullPolicy: IfNotPresent
+minReplicas: 1
+maxReplicas: 2
+metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      targetAverageUtilization: 80
+  - type: Resource
+    resource:
+      name: memory
+      targetAverageUtilization: 80
+
+service:
+  port: 4000
+  targetPort: 8082
+
+ingress:
+  enabled: false
+  host: "localhost"
+  path: "/"
