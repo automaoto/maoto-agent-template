@@ -14,6 +14,7 @@ kubectl config use-context minikube-cluster-intro
 
 Build images and Deploy
 ```bash
+cd ./server_mode/
 bash local_depl.sh
 # helm uninstall kubernetes-server
 ```
