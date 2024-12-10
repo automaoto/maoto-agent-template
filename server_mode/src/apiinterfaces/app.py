@@ -1,7 +1,7 @@
 from time import sleep
 from maoto_agent import *
 
-agent = Maoto()
+agent = Maoto(logging_level=logging.ERROR)
 
 @agent.register_action_handler("calendar")
 def calendar(actioncall: Actioncall, parameters) -> str:

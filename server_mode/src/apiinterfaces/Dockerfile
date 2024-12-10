@@ -21,13 +21,8 @@ ENV POSTGRES_USER=myuser
 ENV POSTGRES_PASSWORD=mypassword
 ENV POSTGRES_PORT=5432
 
-ENV REDIS_HOST=databaseredis
-ENV REDIS_PORT=6379
-
-ENV DEBUG=True
-ENV MAOTO_API_KEY=apikey_provider_lennard
-
-ENV SERVER_PORT=8082
+ENV DEBUG=False
+ENV MAOTO_API_KEY=apikey_resolver_lennard
 
 # Creates a non-root user with an explicit UID and adds permission to access the /app folder
 # For more info, please refer to https://aka.ms/vscode-docker-python-configure-containers

@@ -1,6 +1,5 @@
 from time import sleep
 from maoto_agent import *
-import numpy as np
 import shutil
 from dotenv import load_dotenv
 
