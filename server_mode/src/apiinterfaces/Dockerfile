@@ -29,7 +29,7 @@ ENV POSTGRES_PASSWORD=mypassword
 ENV POSTGRES_PORT=5432
 
 ENV DEBUG=False
-ENV MARKETPLACE_URL=api.maoto.world
+ENV MARKETPLACE_DOMAIN=api.maoto.world
 ENV MAOTO_API_KEY=apikey_resolver_lennard
 
 # Creates a non-root user with an explicit UID and adds permission to access the /app folder
