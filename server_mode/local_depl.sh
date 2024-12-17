@@ -29,9 +29,9 @@ for DOCKERFILE in $(find $PROJECT_DIR -type f -name Dockerfile); do
     if [ "$IMAGE_NAME" = "apiinterfaces" ] && [ "$DEV" = "true" ]; then
         echo "Copying maoto-agent..."
         rsync -a --delete ~/Developer/maoto-agent/ "$TARGET_DIR"
-        docker build --build-arg USE_LOCAL_PACKAGE_VERSION=true -t "$IMAGE_NAME:$IMAGE_TAG" $DIR
+        docker build --build-arg USE_LOCAL_PACKAGE_VERSION=true -q -t "$IMAGE_NAME:$IMAGE_TAG" $DIR
     else
-        docker build -t "$IMAGE_NAME:$IMAGE_TAG" $DIR
+        docker build -q -t "$IMAGE_NAME:$IMAGE_TAG" $DIR
     fi
 done
 
