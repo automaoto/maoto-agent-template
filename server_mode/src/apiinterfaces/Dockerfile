@@ -9,6 +9,13 @@ ENV PYTHONUNBUFFERED=1
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+COPY maoto-agent/ ./maoto-agent/
+ARG USE_LOCAL_PACKAGE_VERSION=false
+RUN if [ "${USE_LOCAL_PACKAGE_VERSION}" = "true" ]; then \
+    # Otherwise, install the maoto-agent with a pretend version
+    export SETUPTOOLS_SCM_PRETEND_VERSION=1000.0.0a0 && pip install ./maoto-agent; \
+  fi
+
 WORKDIR /app
 
 COPY . .

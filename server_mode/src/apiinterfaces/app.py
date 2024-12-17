@@ -1,6 +1,6 @@
 from maoto_agent import *
 
-agent = Maoto(logging_level=logging.ERROR)
+agent = Maoto() # logging_level=logging.ERROR
 
 # @agent.register_auth_directive
 # def auth_directive(element):

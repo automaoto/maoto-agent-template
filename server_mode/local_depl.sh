@@ -11,6 +11,9 @@ PROJECT_DIR="$(dirname "$0")/src"
 BUILD_NUMBER=$(date +%Y%m%d%H%M%S)  # Example: use timestamp as build number
 GIT_COMMIT=$(git rev-parse --short HEAD)  # Get the short commit hash
 
+TARGET_DIR=./src/apiinterfaces/maoto-agent
+DEV="true" # TODO: load env variable from env var file
+
 # Build and push images for all Dockerfiles in subdirectories
 export DOCKER_CLI_HINTS=false
 for DOCKERFILE in $(find $PROJECT_DIR -type f -name Dockerfile); do
@@ -18,7 +21,18 @@ for DOCKERFILE in $(find $PROJECT_DIR -type f -name Dockerfile); do
     DIR=$(dirname $DOCKERFILE)
     IMAGE_NAME=$(basename $DIR)
     IMAGE_TAG="local_$BUILD_NUMBER-$GIT_COMMIT"
-    docker build -q -t "$IMAGE_NAME:$IMAGE_TAG" $DIR
+    
+    # Check if the directory name is "apiinterfaces" and DEV is set to true
+    if [ "$IMAGE_NAME" = "apiinterfaces" ]; then
+        mkdir -p "$TARGET_DIR"
+    fi
+    if [ "$IMAGE_NAME" = "apiinterfaces" ] && [ "$DEV" = "true" ]; then
+        echo "Copying maoto-agent..."
+        rsync -a --delete ~/Developer/maoto-agent/ "$TARGET_DIR"
+        docker build --build-arg USE_LOCAL_PACKAGE_VERSION=true -t "$IMAGE_NAME:$IMAGE_TAG" $DIR
+    else
+        docker build -t "$IMAGE_NAME:$IMAGE_TAG" $DIR
+    fi
 done
 
 # Upgrade and install Helm chart with the image tag

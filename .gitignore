@@ -8,6 +8,8 @@ __pycache__/
 work_dir_provider/
 work_dir_resolver/
 
+server_mode/src/apiinterfaces/maoto-agent/
+
 *.env
 *.secrets
 *.secrets*
