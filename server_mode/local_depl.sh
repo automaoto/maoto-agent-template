@@ -1,7 +1,9 @@
 #!/bin/bash
 
+MINIKUBE_PROFILE="cluster-server"
+NAMESPACE="agent-namespace"
+
 # Ensure we have the Docker environment from Minikube
-MINIKUBE_PROFILE="minikube-cluster-intro"
 eval $(minikube docker-env --profile $MINIKUBE_PROFILE)
 
 # Define variables
@@ -35,6 +37,10 @@ for DOCKERFILE in $(find $PROJECT_DIR -type f -name Dockerfile); do
     fi
 done
 
+# Ensure the namespace exists
+kubectl get namespace $NAMESPACE || kubectl create namespace $NAMESPACE
+
 # Upgrade and install Helm chart with the image tag
 helm upgrade --install kubernetes-server ./kubernetes \
+    --namespace "$NAMESPACE" \
     --set image.tag="$IMAGE_TAG"
