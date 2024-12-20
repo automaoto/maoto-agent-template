@@ -60,6 +60,7 @@ if __name__ == "__main__":
         )
     ])
 
+#agent.server.start_server()
 # This is just here temporarily, because when using the package in client-mode it is non-blocking.
 from time import sleep
 sleep(1000)
