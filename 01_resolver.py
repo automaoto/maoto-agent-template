@@ -7,8 +7,9 @@ load_dotenv('.secrets_resolver')
 
 agent = Maoto()
 
-@agent.register_auth_directive
-def auth_directive(element):
+# optional:
+@agent.register_auth_handler()
+def auth_handler(element):
     if not isinstance(element, Actioncall):
         raise Exception("This directive can only be used with Actioncall elements.")
     # possibly check if the agent has the rights to send action
@@ -19,7 +20,7 @@ def auth_directive(element):
 def bid_audio_to_text(actioncall: Actioncall) -> float:
     return 1.0
 
-@agent.bid_action_fallback
+@agent.bid_action_fallback()
 def bid_action_fallback(actioncall: Actioncall) -> float:
     """This method serves as a fallback for undefined methods."""
     return 0.5
@@ -67,4 +68,4 @@ if __name__ == "__main__":
         ),
     ])
 
-sleep(1000)
+    sleep(1000)

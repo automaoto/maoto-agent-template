@@ -5,8 +5,8 @@ load_dotenv('.secrets_provider')
 
 agent = Maoto(logging_level=logging.WARNING)
 
-@agent.register_auth_directive
-def auth_directive(element):
+@agent.register_auth_handler()
+def auth_handler(element):
     if not isinstance(element, HistoryElement):
         raise Exception("This directive can only be used with HistoryElement elements.")
     # possibly check if the agent has the rights to send historyelement
