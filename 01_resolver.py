@@ -15,16 +15,16 @@ def auth_handler(element):
     # possibly check if the agent has the rights to send action
 
 # Comments to be implemented:
-'''
-@agent.bid_action("audio_to_text")
-def bid_audio_to_text(actioncall: Actioncall) -> float:
+@agent.register_bid_handler("audio_to_text")
+def bid_audio_to_text(post: Post) -> float:
+    print(f"Bid for audio_to_text: {post}")
     return 1.0
 
-@agent.bid_action_fallback()
-def bid_action_fallback(actioncall: Actioncall) -> float:
+@agent.register_bid_handler_fallback()
+def bid_handler_fallback(post_reqtest: BidRequest) -> float:
     """This method serves as a fallback for undefined methods."""
+    print(f"Bid for action with action id: {post_reqtest.get_action_id()}")
     return 0.5
-'''
 
 @agent.register_action_handler("audio_to_text")
 def audio_to_text(actioncall: Actioncall, parameters) -> str:
