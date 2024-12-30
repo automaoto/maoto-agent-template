@@ -13,7 +13,7 @@ agent = Maoto() # logging_level=logging.ERROR
         raise Exception("This directive can only be used with Actioncall elements.")
     '''
     # additionally possibly check if this specific agent has the rights to send element (using element_by_agent = element.get_apikey_id())
-'''db = agent.server.get_con()
+'''db = agent.get_con()
     try:
         with db.cursor(cursor_factory=DictCursor) as cursor:
             # Get file from database
@@ -26,7 +26,7 @@ agent = Maoto() # logging_level=logging.ERROR
                 time=file['time']
             )
     finally:
-        agent.server.put_con(db)'''
+        agent.put_con(db)'''
 
 # Comments to be implemented:
 '''
@@ -60,18 +60,26 @@ if __name__ == "__main__":
         )
     ])
 
-#agent.server.start_server()
-# This is just here temporarily, because when using the package in client-mode it is non-blocking.
-from time import sleep
-sleep(1000)
+agent.start_server()
 
 ######### Examples helping your implementation #########
 # | | | | | | | | | | | | | | | | | | | | | | | |
 # v v v v v v v v v v v v v v v v v v v v v v v v
 
+#Optional: How to set up a custom startup and shutdown function:
+'''
+@agent.custom_startup()
+async def custom_startup():
+    print("Custom startup function.")
+
+@agent.custom_shutdown()
+async def custom_shutdown():
+    print("Custom shutdown function.")
+'''
+
 # Database accesses example:
 '''
-db = agent.server.get_con()
+db = agent.get_con()
 try:
     with db.cursor(cursor_factory=DictCursor) as cursor:
         # Get file from database
@@ -84,7 +92,7 @@ try:
             time=file['time']
         )
 finally:
-    agent.server.put_con(db)
+    agent.put_con(db)
 '''
 
 # Logging example:

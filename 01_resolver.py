@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv('.secrets_resolver')
 
-agent = Maoto()
+agent = Maoto(open_connection=True)
 
 # optional:
 @agent.register_auth_handler()
@@ -68,4 +68,4 @@ if __name__ == "__main__":
         ),
     ])
 
-    sleep(1000)
+    agent.start_server(blocking=True)

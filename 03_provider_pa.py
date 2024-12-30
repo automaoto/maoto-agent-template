@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 
 load_dotenv('.secrets_provider')
 
-agent = Maoto(logging_level=logging.WARNING)
+agent = Maoto(logging_level=logging.WARNING, open_connection=True)
 
 @agent.register_auth_handler()
 def auth_handler(element):

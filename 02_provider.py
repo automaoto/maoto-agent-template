@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 
 load_dotenv('.secrets_provider')
 
-agent = Maoto()
+agent = Maoto(open_connection=True)
 
 @agent.register_auth_handler()
 def auth_handler(element):
@@ -23,4 +23,4 @@ new_post = agent.create_posts([NewPost(
     context=""
 )])
 
-time.sleep(5)
+agent.start_server(blocking=True)
