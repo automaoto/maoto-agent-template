@@ -14,6 +14,7 @@ BUILD_NUMBER=$(date +%Y%m%d%H%M%S)  # Example: use timestamp as build number
 GIT_COMMIT=$(git rev-parse --short HEAD)  # Get the short commit hash
 
 TARGET_DIR=./src/apiinterfaces/maoto-agent
+mkdir -p "$TARGET_DIR"
 DEV="false" # TODO: load env variable from env var file
 
 # Build and push images for all Dockerfiles in subdirectories
