@@ -1,7 +1,11 @@
 #!/bin/bash
 
 MINIKUBE_PROFILE="cluster-server"
-NAMESPACE="agent-namespace"
+
+# Get the name of the current repository and include it into the namespace
+REPO_URL="$(git config --get remote.origin.url)"
+REPO_NAME="$(basename -s .git "$REPO_URL")"
+NAMESPACE="${REPO_NAME}-namespace"
 
 # Ensure we have the Docker environment from Minikube
 eval $(minikube docker-env --profile $MINIKUBE_PROFILE)
@@ -13,7 +17,11 @@ PROJECT_DIR="$(dirname "$0")/src"
 BUILD_NUMBER=$(date +%Y%m%d%H%M%S)  # Example: use timestamp as build number
 GIT_COMMIT=$(git rev-parse --short HEAD)  # Get the short commit hash
 
-TARGET_DIR=./src/apiinterfaces/maoto-agent
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+TARGET_DIR="$SCRIPT_DIR/src/apiinterfaces/maoto-agent"
+KUBERNETES_DIR="$SCRIPT_DIR/kubernetes"
+
 mkdir -p "$TARGET_DIR"
 DEV="false" # TODO: load env variable from env var file
 
@@ -42,6 +50,6 @@ done
 kubectl get namespace $NAMESPACE || kubectl create namespace $NAMESPACE
 
 # Upgrade and install Helm chart with the image tag
-helm upgrade --install kubernetes-server ./kubernetes \
+helm upgrade --install kubernetes-server $KUBERNETES_DIR \
     --namespace "$NAMESPACE" \
     --set image.tag="$IMAGE_TAG"
