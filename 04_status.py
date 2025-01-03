@@ -22,4 +22,4 @@ while True:
         print("Server is up and running." if agent.check_status() else "Server is down.")
     except Exception:
         print("Server is down.")
-    time.sleep(3)
+    time.sleep(60)
