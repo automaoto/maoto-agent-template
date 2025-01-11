@@ -1,114 +1,70 @@
 from maoto_agent import *
+import shutil
+from dotenv import load_dotenv
 
-agent = Maoto() # logging_level=logging.ERROR
+load_dotenv('.secrets_resolver')
 
-# @agent.register_auth_directive
-# def auth_directive(element):
+agent = Maoto(open_connection=True)
 
-    # check if element type is the expected one for this type of agent:
-    # for resolver: Actioncall, provider: Response, Personal Asisstant: HistoryElement
-    # i.e.:
-'''
+# optional:
+@agent.register_auth_handler()
+def auth_handler(element):
     if not isinstance(element, Actioncall):
         raise Exception("This directive can only be used with Actioncall elements.")
-    '''
-    # additionally possibly check if this specific agent has the rights to send element (using element_by_agent = element.get_apikey_id())
-'''db = agent.get_con()
-    try:
-        with db.cursor(cursor_factory=DictCursor) as cursor:
-            # Get file from database
-            cursor.execute("SELECT apikey_id, extension, complete, time FROM files WHERE file_id = %s", (file_id,))
-            file = cursor.fetchone()
-            file = File(
-                file_id=file['file_id'],
-                apikey_id=file['apikey_id'],
-                extension=file['extension'],
-                time=file['time']
-            )
-    finally:
-        agent.put_con(db)'''
+    # possibly check if the agent has the rights to send action
 
 # Comments to be implemented:
-'''
-@agent.bid_action("audio_to_text")
-def bid_audio_to_text(actioncall: Actioncall) -> float:
+@agent.register_bid_handler("audio_to_text")
+def bid_audio_to_text(post: Post) -> float:
+    print(f"Bid for audio_to_text: {post}")
     return 1.0
 
-@agent.bid_action_fallback
-def bid_action_fallback(actioncall: Actioncall) -> float:
+@agent.register_bid_handler_fallback()
+def bid_handler_fallback(post_reqtest: BidRequest) -> float:
     """This method serves as a fallback for undefined methods."""
+    print(f"Bid for action with action id: {post_reqtest.get_action_id()}")
     return 0.5
-'''
 
-@agent.register_action_handler("calendar")
-def calendar(actioncall: Actioncall, parameters) -> str:
-    return "Today is 18. October 2024."
+@agent.register_action_handler("audio_to_text")
+def audio_to_text(actioncall: Actioncall, parameters) -> str:
+    
+    audio_file_id = json.loads(parameters)['audio_file_id']
+    try:
+        audio_file = agent.download_missing_files([audio_file_id])[0]
+        new_audio_file_path = (agent.download_dir / str(audio_file.get_file_id())).with_suffix(audio_file.get_extension())
+        text_outputs_dir = Path("text_outputs")
+        text_outputs_dir.mkdir(exist_ok=True)
+        new_file_path = (text_outputs_dir / str(uuid.uuid4())).with_suffix(".txt")
+
+        # Simulate conversion
+        new_text_file_path = agent.working_dir / new_file_path
+        shutil.copy('text_output.txt',  new_text_file_path)
+        
+        text_output_file = agent.upload_files([new_file_path])[0]
+
+        # remove temporary files
+        new_text_file_path.unlink()
+        new_audio_file_path.unlink()
+
+        return f"Successfully converted audio file {audio_file_id} to text file {text_output_file.get_file_id()}."
+
+    except Exception as e:
+       return f"Failed to convert audio file {audio_file_id} to text. Try again later."
 
 @agent.register_action_handler_fallback()
 def action_fallback(actioncall: Actioncall, parameters) -> str:
     return f"This method serves as a fallback for undefined methods. It serves for acrion with action id: {actioncall.get_action_id()}."
 
 if __name__ == "__main__":
-    created_actions_with_methods = agent.create_actions([
+    created_actions = agent.create_actions([
         NewAction(
-            name="calendar",
-            parameters=json.dumps({}),
-            description="Returns the current date.",
-            tags=["date", "calendar", "info"],
+            name="audio_to_text",
+            parameters=json.dumps({'audio_file_id': 'str'}),
+            description="Transform audio file to text.",
+            tags=["convert", "audio", "text", "transform", "file"],
             cost=None,
             followup=False
-        )
+        ),
     ])
 
-agent.start_server()
-
-######### Examples helping your implementation #########
-# | | | | | | | | | | | | | | | | | | | | | | | |
-# v v v v v v v v v v v v v v v v v v v v v v v v
-
-#Optional: How to set up a custom startup and shutdown function:
-'''
-@agent.custom_startup()
-async def custom_startup():
-    print("Custom startup function.")
-
-@agent.custom_shutdown()
-async def custom_shutdown():
-    print("Custom shutdown function.")
-'''
-
-# Database accesses example:
-'''
-db = agent.get_con()
-try:
-    with db.cursor(cursor_factory=DictCursor) as cursor:
-        # Get file from database
-        cursor.execute("SELECT apikey_id, extension, complete, time FROM files WHERE file_id = %s", (file_id,))
-        file = cursor.fetchone()
-        file = File(
-            file_id=file['file_id'],
-            apikey_id=file['apikey_id'],
-            extension=file['extension'],
-            time=file['time']
-        )
-finally:
-    agent.put_con(db)
-'''
-
-# Logging example:
-'''
-agent.logger.debug("Debug message")
-agent.logger.info("Info message")
-agent.logger.warning("Warning message")
-agent.logger.error("Error message")
-agent.logger.critical("Critical message")
-'''
-
-# Error handling example:
-'''
-try:
-    raise Exception("Error message.")
-except Exception as e:
-    agent.logger.error("Error: %s", e)
-    raise Exception("Error message.") # Optional if you wanna show error
-'''
+    agent.start_server(blocking=True)
