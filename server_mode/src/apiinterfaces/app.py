@@ -1,8 +1,5 @@
 from maoto_agent import *
 import shutil
-from dotenv import load_dotenv
-
-load_dotenv('.secrets_resolver')
 
 agent = Maoto(open_connection=True)
 
