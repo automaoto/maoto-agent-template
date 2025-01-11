@@ -30,7 +30,7 @@ ENV POSTGRES_PORT=5432
 
 ENV DEBUG=False
 
-#ENV API_DOMAIN=apiinterfaces.marketplace-namespace.svc.cluster.local
+#ENV API_DOMAIN=apiinterfaces.maoto-marketplace-namespace.svc.cluster.local
 
 
 ENV MAOTO_API_KEY=apikey_resolver_lennard
