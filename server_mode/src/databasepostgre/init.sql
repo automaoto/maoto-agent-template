@@ -1,6 +1,7 @@
 -- Enable the necessary extensions
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
+-- nessary tables for file download and upload
 CREATE TABLE IF NOT EXISTS files (
     file_id UUID PRIMARY KEY NOT NULL,
     apikey_id UUID NOT NULL,
