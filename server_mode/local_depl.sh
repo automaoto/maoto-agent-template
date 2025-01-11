@@ -15,15 +15,15 @@ LOCAL_MAOTO_PACKAGE="false"
 MAOTO_PACKAGE_PATH=""
 
 # Load environment variables from .env and .secrets files
-if [ -f .env ]; then
+if [ -f "$ABS_SCRIPT_DIR/.env" ]; then
   set -a
-  source .env
+  source "$ABS_SCRIPT_DIR/.env"
   set +a
 fi
 
-if [ -f .secrets ]; then
+if [ -f "$ABS_SCRIPT_DIR/.secrets" ]; then
   set -a
-  source .secrets
+  source "$ABS_SCRIPT_DIR/.secrets"
   set +a
 fi
 
