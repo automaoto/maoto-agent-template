@@ -1,20 +1,16 @@
 # Maoto Agent Template
 
 A maoto agent can be run with open connection to the server or without.
-In most cases we recommend NOT using an open connection for communication with the platform.
-However, in some cases this is necessary, i.e.:
+In most cases we recommend NOT using an open connection for communication with the platform, since an open connection can be a security risk, more error-prone and less reliable.
+However, in some cases this it can be quite handy, i.e.:
 - when there is a NAT / Firewall between device and Internet
 - There is no static IP address available for the maoto-agent
-
-Usually, only the functionality for personal assistants is suitable deployment as extension for locally run personal assistants on mobile devices.
 
 ## With Open Connection
 
 python ./01_resolver.py
 
 python ./02_provider.py
-
-python ./03_provider_pa.py
 
 `.secrets_resolver`:
 ```bash
@@ -34,11 +30,12 @@ minikube start --driver=docker --cpus=2 --memory=2048 --disk-size=10g --profile=
 ```
 
 Build images and Deploy
+This automatically downloads or updates the server_mode dir into the working dir folder in any repository such that the latest version is used.
 ```bash
-bash ./server_mode/local_depl.sh
+bash local_depl_on_template.sh
 ```
 
 ## See logs with:
 ```bash
-kubectl logs -l app=apiinterfaces --namespace="$NAMESPACE" --tail=-1
+kubectl logs -l app=apiinterfaces --namespace=maoto-agent-template --tail=-1
 ```
