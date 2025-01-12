@@ -27,6 +27,9 @@ if [ -f "$ABS_SCRIPT_DIR/.secrets" ]; then
   set +a
 fi
 
+echo "$ABS_SCRIPT_DIR/.secrets"
+exit
+
 # Check if LOCAL_MAOTO_PACKAGE is set to true,
 # then ensure that MAOTO_PACKAGE_PATH is set
 if [ "$LOCAL_MAOTO_PACKAGE" = "true" ]; then
