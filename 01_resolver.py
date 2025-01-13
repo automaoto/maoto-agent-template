@@ -13,12 +13,6 @@ def auth_handler(element):
         raise Exception("This directive can only be used with Actioncall elements.")
     # possibly check if the agent has the rights to send action
 
-# Comments to be implemented:
-@agent.register_bid_handler("audio_to_text")
-def bid_audio_to_text(post: Post) -> float:
-    print(f"Bid for audio_to_text: {post}")
-    return 1.0
-
 @agent.register_action_handler("search_online")
 def research(actioncall: Actioncall, parameters) -> str:
     return "He is 100 year old."
@@ -28,7 +22,6 @@ def bid_handler_fallback(post_reqtest: BidRequest) -> float:
     """This method serves as a fallback for undefined methods."""
     print(f"Bid for action with action id: {post_reqtest.get_action_id()}")
     return 0.5
-
 
 @agent.register_action_handler_fallback()
 def action_fallback(actioncall: Actioncall, parameters) -> str:
