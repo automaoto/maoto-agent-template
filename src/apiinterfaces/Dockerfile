@@ -30,9 +30,6 @@ ENV POSTGRES_PORT=5432
 
 ENV DEBUG=False
 
-#ENV API_DOMAIN=apiinterfaces.maoto-marketplace-namespace.svc.cluster.local
-
-
 ENV MAOTO_API_KEY=apikey_resolver_lennard
 
 # Creates a non-root user with an explicit UID and adds permission to access the /app folder

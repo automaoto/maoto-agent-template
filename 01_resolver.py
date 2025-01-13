@@ -2,6 +2,7 @@ from maoto_agent import *
 from dotenv import load_dotenv
 
 load_dotenv('.secrets_resolver')
+load_dotenv('.env_resolver')
 
 agent = Maoto(open_connection=True)
 

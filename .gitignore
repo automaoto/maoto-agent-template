@@ -15,6 +15,7 @@ work_dir_resolver/
 server_mode/src/apiinterfaces/maoto-agent/
 
 *.env
+*.env*
 *.secrets
 *.secrets*
 
