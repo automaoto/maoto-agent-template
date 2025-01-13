@@ -19,6 +19,10 @@ def bid_audio_to_text(post: Post) -> float:
     print(f"Bid for audio_to_text: {post}")
     return 1.0
 
+@agent.register_action_handler("search_online")
+def research(actioncall: Actioncall, parameters) -> str:
+    return "He is 100 year old."
+
 @agent.register_bid_handler_fallback()
 def bid_handler_fallback(post_reqtest: BidRequest) -> float:
     """This method serves as a fallback for undefined methods."""
@@ -63,6 +67,14 @@ if __name__ == "__main__":
             description="Transform audio file to text.",
             tags=["convert", "audio", "text", "transform", "file"],
             cost=None,
+            followup=False
+        ),
+        NewAction(
+            name="search_online",
+            parameters=json.dumps({'query': 'str'}),
+            description="Search online.",
+            tags=["search", "online", "search", "engine"],
+            cost=0,
             followup=False
         ),
     ])
