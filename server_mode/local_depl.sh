@@ -28,11 +28,6 @@ if [ -f "$ABS_SCRIPT_DIR/.secrets_server" ]; then
   set +a
 fi
 
-echo "$ABS_SCRIPT_DIR/.env_server"
-echo "BETA_MAOTO_PACKAGE: $BETA_MAOTO_PACKAGE"
-echo "LOCAL_MAOTO_PACKAGE: $LOCAL_MAOTO_PACKAGE"
-echo "MAOTO_PACKAGE_PATH: $MAOTO_PACKAGE_PATH"
-
 # Check if LOCAL_MAOTO_PACKAGE is set to true,
 # then ensure that MAOTO_PACKAGE_PATH is set
 if [ "$LOCAL_MAOTO_PACKAGE" = "true" ]; then
