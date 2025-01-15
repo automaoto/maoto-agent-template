@@ -11,6 +11,7 @@ ABS_SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_DIR="$ABS_SCRIPT_DIR/src"
 
 # Configuration variables defaults
+BETA_MAOTO_PACKAGE="false"
 LOCAL_MAOTO_PACKAGE="false"
 MAOTO_PACKAGE_PATH=""
 
@@ -60,7 +61,7 @@ for DOCKERFILE in $(find $PROJECT_DIR -type f -name Dockerfile); do
         rsync -a --delete $MAOTO_PACKAGE_PATH $COPY_PACKAGE_TARGET_DIR
         docker build --build-arg USE_LOCAL_PACKAGE_VERSION=true -t "$IMAGE_NAME:$IMAGE_TAG" $DIR
     else
-        docker build -t "$IMAGE_NAME:$IMAGE_TAG" $DIR
+        docker build --build-arg USE_BETA_PACKAGE_VERSION=$BETA_MAOTO_PACKAGE -t "$IMAGE_NAME:$IMAGE_TAG" $DIR
     fi
 done
 
