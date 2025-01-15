@@ -15,15 +15,15 @@ LOCAL_MAOTO_PACKAGE="false"
 MAOTO_PACKAGE_PATH=""
 
 # Load environment variables from .env and .secrets files
-if [ -f "$ABS_SCRIPT_DIR/.env" ]; then
+if [ -f "$ABS_SCRIPT_DIR/.env_server" ]; then
   set -a
-  source "$ABS_SCRIPT_DIR/.env"
+  source "$ABS_SCRIPT_DIR/.env_server"
   set +a
 fi
 
-if [ -f "$ABS_SCRIPT_DIR/.secrets" ]; then
+if [ -f "$ABS_SCRIPT_DIR/.secrets_server" ]; then
   set -a
-  source "$ABS_SCRIPT_DIR/.secrets"
+  source "$ABS_SCRIPT_DIR/.secrets_server"
   set +a
 fi
 
@@ -32,7 +32,7 @@ fi
 if [ "$LOCAL_MAOTO_PACKAGE" = "true" ]; then
   if [ -z "$MAOTO_PACKAGE_PATH" ]; then
     echo "ERROR: LOCAL_MAOTO_PACKAGE is set to 'true' but MAOTO_PACKAGE_PATH is not defined."
-    echo "Please define MAOTO_PACKAGE_PATH in your .env file."
+    echo "Please define MAOTO_PACKAGE_PATH in your .env_server file."
     exit 1
   fi
 fi

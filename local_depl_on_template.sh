@@ -24,11 +24,11 @@ rsync -a --delete "./$REPO_DIR/$SERVER_TEMPLATE/" "./$WORK_DIR/$SERVER_TEMPLATE/
 rsync -a --delete "./$SRC_DIR/" "./$WORK_DIR/$SERVER_TEMPLATE/$SRC_DIR/"
 
 # Copy the .env and .secrets files to the target directory only if they exist
-if [ -f "./.env" ]; then
-  rsync -a --delete "./.env" "./$WORK_DIR/"
+if [ -f "./.env_server" ]; then
+  rsync -a --delete "./.env_server" "./$WORK_DIR/"
 fi
-if [ -f "./.secrets" ]; then
-  rsync -a --delete "./.secrets" "./$WORK_DIR/"
+if [ -f "./.secrets_server" ]; then
+  rsync -a --delete "./.secrets_server" "./$WORK_DIR/"
 fi
 
 # Run the local_depl.sh script in the target directory
