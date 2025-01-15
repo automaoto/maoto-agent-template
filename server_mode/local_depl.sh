@@ -56,6 +56,7 @@ for DOCKERFILE in $(find $PROJECT_DIR -type f -name Dockerfile); do
     IMAGE_TAG="local_$BUILD_NUMBER-$GIT_COMMIT"
     
     # Check if the directory name is "apiinterfaces" and local maoto-package is selected
+    echo "$LOCAL_MAOTO_PACKAGE"
     if [ "$IMAGE_NAME" = "apiinterfaces" ] && [ "$LOCAL_MAOTO_PACKAGE" = "true" ]; then
         echo "Copying maoto-agent..."
         rsync -a --delete $MAOTO_PACKAGE_PATH $COPY_PACKAGE_TARGET_DIR
