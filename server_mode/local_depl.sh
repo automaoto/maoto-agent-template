@@ -28,6 +28,10 @@ if [ -f "$ABS_SCRIPT_DIR/.secrets_server" ]; then
   set +a
 fi
 
+echo "BETA_MAOTO_PACKAGE: $BETA_MAOTO_PACKAGE"
+echo "LOCAL_MAOTO_PACKAGE: $LOCAL_MAOTO_PACKAGE"
+echo "MAOTO_PACKAGE_PATH: $MAOTO_PACKAGE_PATH"
+
 # Check if LOCAL_MAOTO_PACKAGE is set to true,
 # then ensure that MAOTO_PACKAGE_PATH is set
 if [ "$LOCAL_MAOTO_PACKAGE" = "true" ]; then
@@ -56,7 +60,6 @@ for DOCKERFILE in $(find $PROJECT_DIR -type f -name Dockerfile); do
     IMAGE_TAG="local_$BUILD_NUMBER-$GIT_COMMIT"
     
     # Check if the directory name is "apiinterfaces" and local maoto-package is selected
-    echo "$LOCAL_MAOTO_PACKAGE"
     if [ "$IMAGE_NAME" = "apiinterfaces" ] && [ "$LOCAL_MAOTO_PACKAGE" = "true" ]; then
         echo "Copying maoto-agent..."
         rsync -a --delete $MAOTO_PACKAGE_PATH $COPY_PACKAGE_TARGET_DIR
