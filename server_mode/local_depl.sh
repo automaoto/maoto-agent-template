@@ -4,7 +4,6 @@
 REPO_URL="$(git config --get remote.origin.url)"
 REPO_NAME="$(basename -s .git "$REPO_URL")"
 NAMESPACE="${REPO_NAME}-namespace"
-export NAMESPACE
 
 # Path variables
 ABS_SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
