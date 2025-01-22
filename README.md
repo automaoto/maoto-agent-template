@@ -37,5 +37,5 @@ bash local_depl_on_template.sh
 
 ## See logs with:
 ```bash
-kubectl logs -l app=apiinterfaces --namespace=maoto-agent-template --tail=-1
+kubectl logs -l app=apiinterfaces --namespace=maoto-agent-template-namespace --tail=-1
 ```
