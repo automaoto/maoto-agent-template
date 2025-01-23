@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ .Values.apiinterfaces.host }}
 spec:
-  type: {{ if .Values.ingress.enabled }}ClusterIP{{ else }}LoadBalancer{{ end }}
+  type: {{ if .Values.apiinterfaces.loadbalancer }}LoadBalancer{{ else }}ClusterIP{{ end }}
   ports:
     - port: {{ .Values.service.port }}
       targetPort: {{ .Values.service.targetPort }}

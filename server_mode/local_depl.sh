@@ -70,4 +70,5 @@ kubectl get namespace $NAMESPACE || kubectl create namespace $NAMESPACE
 # Upgrade and install Helm chart with the image tag
 helm upgrade --install kubernetes-server "$ABS_SCRIPT_DIR/kubernetes" \
     --namespace "$NAMESPACE" \
-    --set image.tag="$IMAGE_TAG"
+    --set image.tag="$IMAGE_TAG" \
+    --set apiinterfaces.loadbalancer=false

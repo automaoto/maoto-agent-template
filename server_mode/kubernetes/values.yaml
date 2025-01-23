@@ -9,6 +9,7 @@ image:
 apiinterfaces:
   host: apiinterfaces
   port: 8082
+  loadbalancer: true
   externalPort: 4000
 
 postgresql:
@@ -32,8 +33,3 @@ metrics:
 service:
   port: 4000
   targetPort: 8082
-
-ingress:
-  enabled: false
-  host: "localhost"
-  path: "/"
