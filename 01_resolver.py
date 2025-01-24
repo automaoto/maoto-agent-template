@@ -17,6 +17,11 @@ def auth_handler(element):
 def research(actioncall: Actioncall, parameters) -> str:
     return "He is 100 year old."
 
+@agent.register_bid_handler("search_online")
+def bid_search_online(post: Post) -> float:
+    print(f"Bid for search_online: {post}")
+    return 1.5
+
 @agent.register_bid_handler_fallback()
 def bid_handler_fallback(post_reqtest: BidRequest) -> float:
     """This method serves as a fallback for undefined methods."""
