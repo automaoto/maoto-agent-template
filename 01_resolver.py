@@ -39,7 +39,7 @@ if __name__ == "__main__":
             parameters=json.dumps({'query': 'str'}),
             description="Search online.",
             tags=["search", "online", "search", "engine"],
-            cost=0,
+            cost=None,
             followup=False
         ),
     ])
