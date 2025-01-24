@@ -34,6 +34,7 @@ ENV POSTGRES_PASSWORD=mypassword
 ENV POSTGRES_PORT=5432
 
 ENV DEBUG=False
+ENV LOG_LEVEL=info
 
 ENV MAOTO_API_KEY=apikey_resolver_lennard
 
@@ -42,5 +43,5 @@ ENV MAOTO_API_KEY=apikey_resolver_lennard
 RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
 USER appuser
 
-#ENTRYPOINT ["gunicorn", "-w", "8", "-k", "uvicorn.workers.UvicornWorker", "app:app", "--bind", "0.0.0.0:8082"]
+#ENTRYPOINT gunicorn -w 8 -k uvicorn.workers.UvicornWorker app:app --bind 0.0.0.0:8082 --log-level ${LOG_LEVEL}
 ENTRYPOINT ["python", "app.py" ]
