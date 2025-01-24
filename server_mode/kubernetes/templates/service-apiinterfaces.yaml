@@ -1,3 +1,5 @@
+{{- if .Values.apiinterfaces.activate }}
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -5,8 +7,10 @@ metadata:
 spec:
   type: {{ if .Values.apiinterfaces.loadbalancer }}LoadBalancer{{ else }}ClusterIP{{ end }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: {{ .Values.service.targetPort }}
+    - port: {{ .Values.apiinterfaces.externalPort }}
+      targetPort: {{ .Values.apiinterfaces.port }}
       protocol: TCP
   selector:
     app: {{ .Values.apiinterfaces.host }}
+
+{{- end }}

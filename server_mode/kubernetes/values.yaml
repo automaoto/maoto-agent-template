@@ -7,12 +7,14 @@ image:
   tag: "latest"
 
 apiinterfaces:
+  activate: true
   host: apiinterfaces
   port: 8082
   loadbalancer: false
   externalPort: 4000
 
 postgresql:
+  activate: true
   host: databasepostgre
   port: 5432
   loadbalancer: false
