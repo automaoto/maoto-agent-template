@@ -9,12 +9,14 @@ image:
 apiinterfaces:
   host: apiinterfaces
   port: 8082
-  loadbalancer: true
+  loadbalancer: false
   externalPort: 4000
 
 postgresql:
   host: databasepostgre
   port: 5432
+  loadbalancer: false
+  externalPort: 5432
 
 debug: "false"
 pullPolicy: IfNotPresent

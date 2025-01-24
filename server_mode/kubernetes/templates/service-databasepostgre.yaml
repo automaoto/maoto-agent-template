@@ -3,8 +3,10 @@ kind: Service
 metadata:
   name: {{ .Values.postgresql.host }}
 spec:
+  type: {{ if .Values.postgresql.loadbalancer }}LoadBalancer{{ else }}ClusterIP{{ end }}
   ports:
     - port: {{ .Values.postgresql.port }}
-      targetPort: {{ .Values.postgresql.port }}
+      targetPort: {{ .Values.postgresql.targetPort }}
+      protocol: TCP
   selector:
     app: {{ .Values.postgresql.host }}
