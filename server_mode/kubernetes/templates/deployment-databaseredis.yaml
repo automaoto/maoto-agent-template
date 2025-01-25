@@ -1,0 +1,30 @@
+{{- if .Values.redis.activate }}
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.redis.host }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: {{ .Values.global.revisionHistoryLimit }}
+  selector:
+    matchLabels:
+      app: {{ .Values.redis.host }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.redis.host }}
+    spec:
+      containers:
+        - name: {{ .Values.redis.host }}
+          image: {{ .Values.global.dockerRegistry }}{{ .Values.redis.host }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.redis.port }}
+          env:
+            - name: DEBUG
+              value: "{{ .Values.debug }}"
+      imagePullSecrets:
+        - name: {{ .Values.global.registrySecret }}
+
+{{- end }}

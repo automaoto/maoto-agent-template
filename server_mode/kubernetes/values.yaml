@@ -7,18 +7,25 @@ image:
   tag: "latest"
 
 apiinterfaces:
-  activate: true
+  activate: false
   host: apiinterfaces
   port: 8082
   loadbalancer: false
   externalPort: 4000
 
 postgresql:
-  activate: true
+  activate: false
   host: databasepostgre
   port: 5432
   loadbalancer: false
   externalPort: 5432
+
+redis:
+  activate: false
+  host: databaseredis
+  port: 6379
+  loadbalancer: false
+  externalPort: 6379
 
 debug: "false"
 pullPolicy: IfNotPresent
@@ -33,7 +40,3 @@ metrics:
     resource:
       name: memory
       targetAverageUtilization: 80
-
-service:
-  port: 4000
-  targetPort: 8082

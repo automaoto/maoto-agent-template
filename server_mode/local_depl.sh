@@ -72,4 +72,7 @@ kubectl get namespace $NAMESPACE || kubectl create namespace $NAMESPACE
 helm upgrade --install kubernetes-server "$ABS_SCRIPT_DIR/kubernetes" \
     --namespace "$NAMESPACE" \
     --set image.tag="$IMAGE_TAG" \
-    --set apiinterfaces.loadbalancer=$APIINTERFACES_LOADBALANCER
+    --set apiinterfaces.activate=$APIINTERFACES_ACTIVATE \
+    --set apiinterfaces.loadbalancer=$APIINTERFACES_LOADBALANCER \
+    --set databaseredis.activate=$DATABASEREDIS_ACTIVATE \
+    --set databasepostgres.activate=$DATABASEPOSTGRES_ACTIVATE

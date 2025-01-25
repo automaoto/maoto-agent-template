@@ -16,9 +16,16 @@ spec:
         app: {{ .Values.apiinterfaces.host }}
     spec:
       initContainers:
+        {{- if .Values.postgresql.activate }}
         - name: wait-for-postgresql
           image: busybox
           command: ['sh', '-c', 'until nc -z -v -w30 {{ .Values.postgresql.host }} {{ .Values.postgresql.port }}; do echo waiting for postgres; sleep 5; done']
+        {{- end }}
+        {{- if .Values.redis.activate }}
+        - name: wait-for-redis
+          image: busybox
+          command: ['sh', '-c', 'until nc -z -v -w30 {{ .Values.redis.host }} {{ .Values.redis.port }}; do echo waiting for redis; sleep 5; done']
+        {{- end }}
       containers:
         - name: {{ .Values.apiinterfaces.host }}
           image: {{ .Values.global.dockerRegistry }}{{ .Values.apiinterfaces.host }}:{{ .Values.image.tag }}
@@ -28,6 +35,16 @@ spec:
           env:
             - name: DEBUG
               value: "{{ .Values.debug }}"
+          # readinessProbe:
+          #   httpGet:
+          #     path: /healthz
+          #     port: {{ .Values.apiinterfaces.port }}
+          #     host: apiinterfaces.maoto-marketplace-namespace.svc.cluster.local
+          #   initialDelaySeconds: 5  # Wait before the first check
+          #   periodSeconds: 10  # Check every 10s
+          #   timeoutSeconds: 2  # Fail if it takes longer than 2s
+          #   failureThreshold: 3  # Mark pod as unready after 3 failures
+          #   successThreshold: 1  # One success marks it ready
       imagePullSecrets:
         - name: {{ .Values.global.registrySecret }}
 
