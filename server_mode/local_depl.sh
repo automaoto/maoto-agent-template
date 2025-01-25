@@ -78,5 +78,5 @@ helm upgrade --install kubernetes-server "$ABS_SCRIPT_DIR/kubernetes" \
     --set image.tag="$IMAGE_TAG" \
     --set apiinterfaces.activate=$APIINTERFACES_ACTIVATE \
     --set apiinterfaces.loadbalancer=$APIINTERFACES_LOADBALANCER \
-    --set databaseredis.activate=$DATABASEREDIS_ACTIVATE \
-    --set databasepostgres.activate=$DATABASEPOSTGRES_ACTIVATE
+    --set redis.activate=$DATABASEREDIS_ACTIVATE \
+    --set postgresql.activate=$DATABASEPOSTGRES_ACTIVATE
