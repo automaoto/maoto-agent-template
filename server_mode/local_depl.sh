@@ -13,7 +13,11 @@ PROJECT_DIR="$ABS_SCRIPT_DIR/src"
 BETA_MAOTO_PACKAGE="false"
 LOCAL_MAOTO_PACKAGE="false"
 MAOTO_PACKAGE_PATH=""
+
+APIINTERFACES_ACTIVATE=true
 APIINTERFACES_LOADBALANCER=false
+DATABASEREDIS_ACTIVATE=false
+DATABASEPOSTGRES_ACTIVATE=false
 
 # Load environment variables from .env and .secrets files
 if [ -f "$ABS_SCRIPT_DIR/.env_server" ]; then
