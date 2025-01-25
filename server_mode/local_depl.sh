@@ -17,7 +17,7 @@ MAOTO_PACKAGE_PATH=""
 APIINTERFACES_ACTIVATE=true
 APIINTERFACES_LOADBALANCER=false
 DATABASEREDIS_ACTIVATE=false
-DATABASEPOSTGRES_ACTIVATE=false
+DATABASEPOSTGRES_ACTIVATE=true
 
 # Load environment variables from .env and .secrets files
 if [ -f "$ABS_SCRIPT_DIR/.env_server" ]; then
