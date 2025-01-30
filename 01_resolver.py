@@ -13,14 +13,14 @@ def auth_handler(element):
         raise Exception("This directive can only be used with Actioncall elements.")
     # possibly check if the agent has the rights to send action
 
-@agent.register_action_handler("search_online")
+@agent.register_action_handler("grab_ride_hauling")
 def research(actioncall: Actioncall, parameters) -> str:
-    return "He is 100 year old."
+    return "The grab ride was booked successfully. It will arrive at your location in 8 minutes."
 
-@agent.register_bid_handler("search_online")
+@agent.register_bid_handler("grab_ride_hauling")
 def bid_search_online(post: Post) -> float:
-    print(f"Bid for search_online: {post}")
-    return 1.5
+    print(f"Bidding: {post}")
+    return 29.0
 
 @agent.register_bid_handler_fallback()
 def bid_handler_fallback(post_reqtest: BidRequest) -> float:
@@ -35,10 +35,10 @@ def action_fallback(actioncall: Actioncall, parameters) -> str:
 if __name__ == "__main__":
     created_actions = agent.create_actions([
         NewAction(
-            name="search_online",
-            parameters=json.dumps({'query': 'str'}),
-            description="Search online.",
-            tags=["search", "online", "search", "engine"],
+            name="grab_ride_hauling",
+            parameters=json.dumps({'longitude': 'int', 'latitude': 'int', 'destination': 'str'}), #TODO: change to stacked parameters (longitude, latitude are a pair of current location)
+            description="Books a Grab ride.",
+            tags=["Grab", "ride hauling"],
             cost=None,
             followup=False
         ),
