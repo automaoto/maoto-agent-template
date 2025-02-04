@@ -7,15 +7,17 @@ load_dotenv('.env_resolver')
 agent = Maoto()
 
 @agent.register_handler("Actioncall", "grab_ride_hauling")
-async def research(actioncall: Actioncall, parameters) -> str:
+async def ride_hauling_action_handler(actioncall: Actioncall) -> str:
+    print(actioncall.get_parameters())
     return "The grab ride was booked successfully. It will arrive at your location in 8 minutes."
 
 @agent.register_handler("Actioncall_fallback")
-async def action_fallback(actioncall: Actioncall, parameters) -> str:
+async def action_fallback(actioncall: Actioncall) -> str:
+    print(actioncall.get_parameters())
     return f"This method with action_id: {actioncall.get_action_id()} is not supported by the agent."
 
 @agent.register_handler("BidRequest", "grab_ride_hauling")
-async def bid_search_online(post: Post) -> float:
+async def ride_hauling_action_handler(post: Post) -> float:
     print(f"Bidding")
     return 0.0
 
