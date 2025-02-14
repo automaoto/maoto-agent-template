@@ -90,4 +90,4 @@ kubectl create secret generic my-env-secrets \
 helm upgrade --install kubernetes-server "$ABS_SCRIPT_DIR/kubernetes" \
     --namespace "$NAMESPACE" \
     --set image.tag="$IMAGE_TAG" \
-    --set $HELM_SET_ARGS
+    --set $HELM_SET_STRING
