@@ -83,10 +83,12 @@ cat $ABS_SCRIPT_DIR/.secrets_server
 # Create or update configmap for non-sensitive environment variables
 kubectl create configmap my-env-config \
   --from-env-file=$ABS_SCRIPT_DIR/.env_server \
+  --namespace $NAMESPACE \
   --dry-run=client -o yaml | kubectl apply -f -
 # Create or update secret for sensitive environment variables
 kubectl create secret generic my-env-secrets \
   --from-env-file=$ABS_SCRIPT_DIR/.secrets_server \
+  --namespace $NAMESPACE \
   --dry-run=client -o yaml | kubectl apply -f -
 
 # Upgrade and install Helm chart with the image tag
