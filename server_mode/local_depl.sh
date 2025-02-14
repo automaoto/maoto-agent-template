@@ -77,6 +77,9 @@ HELM_SET_STRING=$(IFS=, ; echo "${HELM_SET_ARGS[*]}")
 
 echo "Helm set arguments: $HELM_SET_STRING"
 
+# Delete configmap and secret if they exist
+kubectl create configmap my-env-config --from-literal=empty=reset --dry-run=client -o yaml | kubectl apply -f -
+
 # Create or update configmap for non-sensitive environment variables
 kubectl create configmap my-env-config \
   --from-env-file="$ABS_SCRIPT_DIR/.env_server" \
