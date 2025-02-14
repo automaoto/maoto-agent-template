@@ -75,15 +75,18 @@ HELM_SET_ARGS=()
 [ -n "${DATABASEPOSTGRES_ACTIVATE:-}" ] && HELM_SET_ARGS+=("postgresql.activate=${DATABASEPOSTGRES_ACTIVATE}")
 HELM_SET_STRING=$(IFS=, ; echo "${HELM_SET_ARGS[*]}")
 
-echo "Helm set arguments: $HELM_SET_STRING"
+# print file $ABS_SCRIPT_DIR/.env_server
+cat $ABS_SCRIPT_DIR/.env_server
+# print file $ABS_SCRIPT_DIR/.secrets_server
+cat $ABS_SCRIPT_DIR/.secrets_server
 
 # Create or update configmap for non-sensitive environment variables
 kubectl create configmap my-env-config \
-  --from-env-file="$ABS_SCRIPT_DIR/.env_server" \
+  --from-env-file=$ABS_SCRIPT_DIR/.env_server \
   --dry-run=client -o yaml | kubectl apply -f -
 # Create or update secret for sensitive environment variables
 kubectl create secret generic my-env-secrets \
-  --from-env-file="$ABS_SCRIPT_DIR/.secrets_server" \
+  --from-env-file=$ABS_SCRIPT_DIR/.secrets_server \
   --dry-run=client -o yaml | kubectl apply -f -
 
 # Upgrade and install Helm chart with the image tag

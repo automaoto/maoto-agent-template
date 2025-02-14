@@ -120,7 +120,7 @@ jobs:
             --set pullPolicy=Always \
             --namespace "$NAMESPACE" \
             --set image.tag="$IMAGE_TAG" \
-            --set "$HELM_SET_ARGS"
+            --set $HELM_SET_STRING
 
           # Restart all deployments (to ensure the db is reset)
           kubectl get deployments  -n "$NAMESPACE" -o name | xargs -n1 kubectl rollout restart -n "$NAMESPACE"
