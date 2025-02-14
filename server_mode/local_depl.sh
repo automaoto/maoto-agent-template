@@ -14,11 +14,6 @@ BETA_MAOTO_PACKAGE="false"
 LOCAL_MAOTO_PACKAGE="false"
 MAOTO_PACKAGE_PATH=""
 
-APIINTERFACES_ACTIVATE=true
-APIINTERFACES_LOADBALANCER=false
-DATABASEREDIS_ACTIVATE=false
-DATABASEPOSTGRES_ACTIVATE=true
-
 # Load environment variables from .env and .secrets files
 if [ -f "$ABS_SCRIPT_DIR/.env_server" ]; then
   set -a
@@ -72,11 +67,25 @@ done
 # Ensure the namespace exists
 kubectl get namespace $NAMESPACE || kubectl create namespace $NAMESPACE
 
+# Only add each key=value pair if the environment variable is set (non-empty).
+HELM_SET_ARGS=()
+[ -n "${APIINTERFACES_ACTIVATE:-}" ] && HELM_SET_ARGS+=("apiinterfaces.activate=${APIINTERFACES_ACTIVATE}")
+[ -n "${APIINTERFACES_LOADBALANCER:-}" ] && HELM_SET_ARGS+=("apiinterfaces.loadbalancer=${APIINTERFACES_LOADBALANCER}")
+[ -n "${DATABASEREDIS_ACTIVATE:-}" ] && HELM_SET_ARGS+=("redis.activate=${DATABASEREDIS_ACTIVATE}")
+[ -n "${DATABASEPOSTGRES_ACTIVATE:-}" ] && HELM_SET_ARGS+=("postgresql.activate=${DATABASEPOSTGRES_ACTIVATE}")
+HELM_SET_STRING=$(IFS=, ; echo "${HELM_SET_ARGS[*]}")
+
+# Create or update configmap for non-sensitive environment variables
+kubectl create configmap my-env-config \
+  --from-env-file="$ABS_SCRIPT_DIR/.env_server" \
+  --dry-run=client -o yaml | kubectl apply -f -
+# Create or update secret for sensitive environment variables
+kubectl create secret generic my-env-secrets \
+  --from-env-file="$ABS_SCRIPT_DIR/.secrets_server" \
+  --dry-run=client -o yaml | kubectl apply -f -
+
 # Upgrade and install Helm chart with the image tag
 helm upgrade --install kubernetes-server "$ABS_SCRIPT_DIR/kubernetes" \
     --namespace "$NAMESPACE" \
     --set image.tag="$IMAGE_TAG" \
-    --set apiinterfaces.activate=$APIINTERFACES_ACTIVATE \
-    --set apiinterfaces.loadbalancer=$APIINTERFACES_LOADBALANCER \
-    --set redis.activate=$DATABASEREDIS_ACTIVATE \
-    --set postgresql.activate=$DATABASEPOSTGRES_ACTIVATE
+    --set "$HELM_SET_ARGS"

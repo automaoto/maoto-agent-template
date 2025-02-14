@@ -24,6 +24,11 @@ spec:
           env:
             - name: DEBUG
               value: "{{ .Values.debug }}"
+          envFrom:
+            - configMapRef:
+                name: my-env-config
+            - secretRef:
+                name: my-env-secrets
       imagePullSecrets:
         - name: {{ .Values.global.registrySecret }}
 

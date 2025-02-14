@@ -56,6 +56,20 @@ jobs:
           BUILD_NUMBER: ${{ env.BUILD_NUMBER }}
           GIT_COMMIT: ${{ env.GIT_COMMIT }}
         run: |
+
+          # download kubernetes template from template repo
+          REPO_NAME="maoto-agent-template"
+          REPO_URL="https://github.com/automaoto/$REPO_NAME"
+          git clone --depth 1 --filter=blob:none --no-checkout "$REPO_URL" temp-repo
+          cd temp-repo
+          git sparse-checkout init --cone
+          git sparse-checkout set server_mode/kubernetes
+          git checkout
+          mv server_mode/kubernetes ../kubernetes
+          cd ..
+          rm -rf temp-repo
+
+          # Set up kubectl
           export AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_DEFAULT_REGION
           aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name kubernetes-server-aws
           if kubectl get secret registry-secret; then
@@ -70,25 +84,43 @@ jobs:
           fi
           IMAGE_TAG="$BUILD_NUMBER-$GIT_COMMIT"
 
-          APIINTERFACES_ACTIVATE=true
-          APIINTERFACES_LOADBALANCER=true
-          DATABASEREDIS_ACTIVATE=true
-          DATABASEPOSTGRES_ACTIVATE=true
-
           # Ensure the namespace exists
           REPO_NAME=$(basename ${{ github.repository }})
           NAMESPACE="$REPO_NAME-namespace"
           kubectl get namespace $NAMESPACE || kubectl create namespace $NAMESPACE
 
-            helm upgrade --install kubernetes-server ./kubernetes \
-              --set global.dockerRegistry="$DOCKER_REGISTRY/" \
-              --set pullPolicy=Always \
-              --namespace "$NAMESPACE" \
-              --set image.tag="$IMAGE_TAG" \
-              --set apiinterfaces.activate=$APIINTERFACES_ACTIVATE \
-              --set apiinterfaces.loadbalancer=$APIINTERFACES_LOADBALANCER \
-              --set redis.activate=$DATABASEREDIS_ACTIVATE \
-              --set postgresql.activate=$DATABASEPOSTGRES_ACTIVATE
+          # Get env and secrets files
+          echo "${{ env.ENV_SERVER_CONTENT }}" > .env_server
+          echo "${{ secrets.SECRETS_SERVER_CONTENT }}" > .secrets_server
 
-            # Restart all deployments (to ensure the db is reset)
-            kubectl get deployments  -n "$NAMESPACE" -o name | xargs -n1 kubectl rollout restart -n "$NAMESPACE"
+          # “source” the file so each KEY=VALUE line sets an environment variable
+          set -a              # Enable 'export' of all variables loaded
+          . ./.env_server     # Source the .env_server file (dot + filename)
+          set +a              # Disable 'export all' mode
+          
+          # Only add each key=value pair if the environment variable is set (non-empty).
+          HELM_SET_ARGS=()
+          [ -n "${APIINTERFACES_ACTIVATE:-}" ] && HELM_SET_ARGS+=("apiinterfaces.activate=${APIINTERFACES_ACTIVATE}")
+          [ -n "${APIINTERFACES_LOADBALANCER:-}" ] && HELM_SET_ARGS+=("apiinterfaces.loadbalancer=${APIINTERFACES_LOADBALANCER}")
+          [ -n "${DATABASEREDIS_ACTIVATE:-}" ] && HELM_SET_ARGS+=("redis.activate=${DATABASEREDIS_ACTIVATE}")
+          [ -n "${DATABASEPOSTGRES_ACTIVATE:-}" ] && HELM_SET_ARGS+=("postgresql.activate=${DATABASEPOSTGRES_ACTIVATE}")
+          HELM_SET_STRING=$(IFS=, ; echo "${HELM_SET_ARGS[*]}")
+
+          # Create or update configmap for non-sensitive environment variables
+          kubectl create configmap my-env-config \
+            --from-env-file=.env_server \
+            --dry-run=client -o yaml | kubectl apply -f -
+          # Create or update secret for sensitive environment variables
+          kubectl create secret generic my-env-secrets \
+            --from-env-file=.secrets_server \
+            --dry-run=client -o yaml | kubectl apply -f -
+
+          helm upgrade --install kubernetes-server ./kubernetes \
+            --set global.dockerRegistry="$DOCKER_REGISTRY/" \
+            --set pullPolicy=Always \
+            --namespace "$NAMESPACE" \
+            --set image.tag="$IMAGE_TAG" \
+            --set "$HELM_SET_ARGS"
+
+          # Restart all deployments (to ensure the db is reset)
+          kubectl get deployments  -n "$NAMESPACE" -o name | xargs -n1 kubectl rollout restart -n "$NAMESPACE"

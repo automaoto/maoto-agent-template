@@ -11,7 +11,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 ARG USE_BETA_PACKAGE_VERSION=false
 RUN if [ "${USE_BETA_PACKAGE_VERSION}" = "true" ]; then \
-    pip install --pre --upgrade maoto-agent; \
+    pip install --pre --upgrade --force-reinstall maoto-agent; \
     fi
 
 COPY maoto-agent/ ./maoto-agent/
@@ -27,21 +27,9 @@ COPY . .
 
 EXPOSE 8082
 
-ENV POSTGRES_HOST=databasepostgre
-ENV POSTGRES_DB=mydatabase
-ENV POSTGRES_USER=myuser
-ENV POSTGRES_PASSWORD=mypassword
-ENV POSTGRES_PORT=5432
-
-ENV DEBUG=False
-ENV LOG_LEVEL=info
-
-ENV MAOTO_API_KEY=apikey_resolver_lennard
-
 # Creates a non-root user with an explicit UID and adds permission to access the /app folder
 # For more info, please refer to https://aka.ms/vscode-docker-python-configure-containers
 RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
 USER appuser
 
-#ENTRYPOINT gunicorn -w 8 -k uvicorn.workers.UvicornWorker app:app --bind 0.0.0.0:8082 --log-level ${LOG_LEVEL}
-ENTRYPOINT ["python", "app.py" ]
+ENTRYPOINT ["gunicorn", "-w", "2", "-k", "uvicorn.workers.UvicornWorker", "app:app", "--bind", "0.0.0.0:8082"]

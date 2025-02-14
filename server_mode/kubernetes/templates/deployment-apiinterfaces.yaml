@@ -35,6 +35,11 @@ spec:
           env:
             - name: DEBUG
               value: "{{ .Values.debug }}"
+          envFrom:
+            - configMapRef:
+                name: my-env-config
+            - secretRef:
+                name: my-env-secrets
           # readinessProbe:
           #   httpGet:
           #     path: /healthz
