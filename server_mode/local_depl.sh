@@ -75,11 +75,6 @@ HELM_SET_ARGS=()
 [ -n "${DATABASEPOSTGRES_ACTIVATE:-}" ] && HELM_SET_ARGS+=("postgresql.activate=${DATABASEPOSTGRES_ACTIVATE}")
 HELM_SET_STRING=$(IFS=, ; echo "${HELM_SET_ARGS[*]}")
 
-# print file $ABS_SCRIPT_DIR/.env_server
-cat $ABS_SCRIPT_DIR/.env_server
-# print file $ABS_SCRIPT_DIR/.secrets_server
-cat $ABS_SCRIPT_DIR/.secrets_server
-
 # Create or update configmap for non-sensitive environment variables
 kubectl create configmap my-env-config \
   --from-env-file=$ABS_SCRIPT_DIR/.env_server \
