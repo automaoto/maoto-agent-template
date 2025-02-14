@@ -27,13 +27,6 @@ if [ -f "$ABS_SCRIPT_DIR/.secrets_server" ]; then
   set +a
 fi
 
-
-echo "APIINTERFACES_ACTIVATE=$APIINTERFACES_ACTIVATE"
-echo "APIINTERFACES_LOADBALANCER=$APIINTERFACES_LOADBALANCER"
-echo "DATABASEREDIS_ACTIVATE=$DATABASEREDIS_ACTIVATE"
-echo "DATABASEPOSTGRES_ACTIVATE=$DATABASEPOSTGRES_ACTIVATE"
-
-
 # Check if LOCAL_MAOTO_PACKAGE is set to true,
 # then ensure that MAOTO_PACKAGE_PATH is set
 if [ "$LOCAL_MAOTO_PACKAGE" = "true" ]; then
@@ -81,6 +74,8 @@ HELM_SET_ARGS=()
 [ -n "${DATABASEREDIS_ACTIVATE:-}" ] && HELM_SET_ARGS+=("redis.activate=${DATABASEREDIS_ACTIVATE}")
 [ -n "${DATABASEPOSTGRES_ACTIVATE:-}" ] && HELM_SET_ARGS+=("postgresql.activate=${DATABASEPOSTGRES_ACTIVATE}")
 HELM_SET_STRING=$(IFS=, ; echo "${HELM_SET_ARGS[*]}")
+
+echo "Helm set arguments: $HELM_SET_STRING"
 
 # Create or update configmap for non-sensitive environment variables
 kubectl create configmap my-env-config \
