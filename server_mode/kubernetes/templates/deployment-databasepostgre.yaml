@@ -21,9 +21,6 @@ spec:
           imagePullPolicy: {{ .Values.pullPolicy }}
           ports:
             - containerPort: {{ .Values.postgresql.port }}
-          env:
-            - name: DEBUG
-              value: "{{ .Values.debug }}"
           envFrom:
             - configMapRef:
                 name: my-env-config

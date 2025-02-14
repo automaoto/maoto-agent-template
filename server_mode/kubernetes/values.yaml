@@ -27,7 +27,6 @@ redis:
   loadbalancer: false
   externalPort: 6379
 
-debug: "false"
 pullPolicy: IfNotPresent
 minReplicas: 1
 maxReplicas: 2
