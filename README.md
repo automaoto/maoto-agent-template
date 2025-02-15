@@ -39,4 +39,3 @@ bash local_depl_on_template.sh
 ```bash
 kubectl logs -l app=apiinterfaces --namespace=maoto-agent-template-namespace --tail=-1
 ```
-
