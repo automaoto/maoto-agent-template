@@ -55,6 +55,8 @@ jobs:
           DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
           BUILD_NUMBER: ${{ env.BUILD_NUMBER }}
           GIT_COMMIT: ${{ env.GIT_COMMIT }}
+          ENV_SERVER_CONTENT: ${{ vars.ENV_SERVER_CONTENT }}
+          SECRETS_SERVER_CONTENT: ${{ secrets.SECRETS_SERVER_CONTENT }}
         run: |
 
           # download kubernetes template from template repo
@@ -90,13 +92,16 @@ jobs:
           kubectl get namespace $NAMESPACE || kubectl create namespace $NAMESPACE
 
           # Get env and secrets files
-          echo "${{ env.ENV_SERVER_CONTENT }}" > .env_server
-          echo "${{ secrets.SECRETS_SERVER_CONTENT }}" > .secrets_server
+          #echo $ENV_SERVER_CONTENT > .env_server
+          #echo $SECRETS_SERVER_CONTENT > .secrets_server
+          # this doesnt work because the file was not created using linux system apparently
+          echo "$ENV_SERVER_CONTENT" | tr -d '\r' > .env_server
+          echo "$SECRETS_SERVER_CONTENT" | tr -d '\r' > .secrets_server
 
-          # “source” the file so each KEY=VALUE line sets an environment variable
-          set -a              # Enable 'export' of all variables loaded
-          . ./.env_server     # Source the .env_server file (dot + filename)
-          set +a              # Disable 'export all' mode
+          echo ".env_server first line: $(head -n 1 .env_server | cut -c1-10)..."
+          echo ".secrets_server first line: $(head -n 1 .secrets_server | cut -c1-10)..."
+
+          source .env_server
           
           # Only add each key=value pair if the environment variable is set (non-empty).
           HELM_SET_ARGS=()
@@ -109,10 +114,12 @@ jobs:
           # Create or update configmap for non-sensitive environment variables
           kubectl create configmap my-env-config \
             --from-env-file=.env_server \
+            --namespace $NAMESPACE \
             --dry-run=client -o yaml | kubectl apply -f -
           # Create or update secret for sensitive environment variables
           kubectl create secret generic my-env-secrets \
             --from-env-file=.secrets_server \
+            --namespace $NAMESPACE \
             --dry-run=client -o yaml | kubectl apply -f -
 
           helm upgrade --install kubernetes-server ./kubernetes \
