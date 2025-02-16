@@ -1,4 +1,4 @@
-{{- if .Values.databaseredis.activate }}
+{{- if .Values.redis.activate }}
 
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
