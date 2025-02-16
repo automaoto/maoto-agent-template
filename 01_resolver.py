@@ -14,12 +14,13 @@ async def ride_hauling_action_handler(actioncall: Actioncall) -> str:
 @agent.register_handler("Actioncall", "tada_ride_hauling")
 async def ride_hauling_action_handler(actioncall: Actioncall) -> str:
     print("Actioncall tada_ride_hauling")
+    await agent.refund_payment(actioncall.get_actioncall_id())
     return "The tada ride was booked successfully. It will arrive at your location in 7 minutes."
 
 @agent.register_handler("Actioncall_fallback")
 async def action_fallback(actioncall: Actioncall) -> str:
     print("Actioncall fallback")
-    return f"This method with action_id: {actioncall.get_action_id()} is not supported by the agent."
+    return f"The ride was booked successfully. It will arrive at your location in 10 minutes."
 
 @agent.register_handler("BidRequest", "grab_ride_hauling")
 async def ride_hauling_action_handler(post: Post) -> float:
