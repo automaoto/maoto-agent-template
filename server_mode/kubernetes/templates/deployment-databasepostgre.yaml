@@ -27,13 +27,7 @@ spec:
             - secretRef:
                 name: my-env-secrets
           resources:
-            requests:
-              cpu: 100m
-              memory: 512Mi
-            limits:
-              cpu: 500m
-              memory: 1024Mi
-            # some test comment here
+            {{- toYaml .Values.postgresql.resources | nindent 12 }}
       imagePullSecrets:
         - name: {{ .Values.global.registrySecret }}
 
