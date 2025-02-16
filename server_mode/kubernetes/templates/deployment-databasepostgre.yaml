@@ -21,6 +21,11 @@ spec:
           imagePullPolicy: {{ .Values.pullPolicy }}
           ports:
             - containerPort: {{ .Values.postgresql.port }}
+          envFrom:
+            - configMapRef:
+                name: my-env-config
+            - secretRef:
+                name: my-env-secrets
           resources:
             requests:
               cpu: 100m
@@ -28,12 +33,6 @@ spec:
             limits:
               cpu: 500m
               memory: 1024Mi
-          envFrom:
-            - configMapRef:
-                name: my-env-config
-            - secretRef:
-                name: my-env-secrets
-
       imagePullSecrets:
         - name: {{ .Values.global.registrySecret }}
 
