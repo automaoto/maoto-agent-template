@@ -21,13 +21,19 @@ spec:
           imagePullPolicy: {{ .Values.pullPolicy }}
           ports:
             - containerPort: {{ .Values.postgresql.port }}
+          resources:
+            requests:
+              cpu: 100m
+              memory: 512Mi
+            limits:
+              cpu: 500m
+              memory: 1024Mi
           envFrom:
             - configMapRef:
                 name: my-env-config
             - secretRef:
                 name: my-env-secrets
-          resources:
-            {{- toYaml .Values.postgresql.resources | nindent 12 }}
+
       imagePullSecrets:
         - name: {{ .Values.global.registrySecret }}
 
