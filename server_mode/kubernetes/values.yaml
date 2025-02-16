@@ -19,13 +19,6 @@ postgresql:
   port: 5432
   loadbalancer: false
   externalPort: 5432
-  resources:
-    requests:
-      cpu: 100m
-      memory: 512Mi
-    limits:
-      cpu: 500m
-      memory: 1024Mi
 
 redis:
   activate: false
@@ -35,14 +28,3 @@ redis:
   externalPort: 6379
 
 pullPolicy: IfNotPresent
-minReplicas: 1
-maxReplicas: 2
-metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      targetAverageUtilization: 80
-  - type: Resource
-    resource:
-      name: memory
-      targetAverageUtilization: 80

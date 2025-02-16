@@ -1,14 +1,14 @@
-{{- if .Values.apiinterfaces.activate }}
+{{- if .Values.databaseredis.activate }}
 
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: apiinterfaces
+  name: databaseredis
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: apiinterfaces
+    name: databaseredis
   minReplicas: 1
   maxReplicas: 2
   metrics:

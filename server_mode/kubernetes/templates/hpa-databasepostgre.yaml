@@ -1,14 +1,14 @@
-{{- if .Values.apiinterfaces.activate }}
+{{- if .Values.databasepostgre.activate }}
 
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: apiinterfaces
+  name: databasepostgre
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: apiinterfaces
+    name: databasepostgre
   minReplicas: 1
   maxReplicas: 2
   metrics:
