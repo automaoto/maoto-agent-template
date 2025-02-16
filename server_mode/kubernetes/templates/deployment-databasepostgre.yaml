@@ -33,6 +33,7 @@ spec:
             limits:
               cpu: 500m
               memory: 1024Mi
+            # some test comment here
       imagePullSecrets:
         - name: {{ .Values.global.registrySecret }}
 
