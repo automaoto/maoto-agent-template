@@ -86,6 +86,12 @@ kubectl create secret generic my-env-secrets \
   --namespace $NAMESPACE \
   --dry-run=client -o yaml | kubectl apply -f -
 
+# Install metrics server
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+kubectl patch deployment metrics-server -n kube-system --type='json' -p='[{"op": "add", "path": "/spec/template/spec/containers/0/args/-", "value": "--kubelet-insecure-tls"}]'
+kubectl get pods -n kube-system | grep metrics-server
+#kubectl delete pod -n kube-system -l k8s-app=metrics-server
+
 # Upgrade and install Helm chart with the image tag
 helm upgrade --install kubernetes-server "$ABS_SCRIPT_DIR/kubernetes" \
     --namespace "$NAMESPACE" \
