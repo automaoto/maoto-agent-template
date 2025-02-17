@@ -26,7 +26,13 @@ spec:
           averageUtilization: 80
   behavior:
     scaleDown:
-      stabilizationWindowSeconds: 30  # Reduce wait time for scaling down to 60s
+      stabilizationWindowSeconds: 60
+      policies:
+        - type: Percent
+          value: 50
+          periodSeconds: 30
+    scaleUp:
+      stabilizationWindowSeconds: 0
       policies:
         - type: Percent
           value: 50
