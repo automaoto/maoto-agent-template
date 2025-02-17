@@ -31,5 +31,6 @@ spec:
         - type: Percent
           value: 100  # Reduce by 50% at a time (e.g., from 2 → 1 replica)
           periodSeconds: 30  # Check every 30 seconds
+        selectPolicy: Min
 
 {{- end }}
