@@ -21,7 +21,7 @@ spec:
               service:
                 name: apiinterfaces
                 port:
-                  number: 4000
+                  number: 8082
   tls:
     - hosts:
         - mp.maoto.world
