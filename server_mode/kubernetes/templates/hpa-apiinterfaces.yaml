@@ -29,7 +29,7 @@ spec:
       stabilizationWindowSeconds: 60  # Reduce wait time for scaling down to 60s
       policies:
         - type: Percent
-          value: 50  # Reduce by 50% at a time (e.g., from 2 → 1 replica)
+          value: 51  # Reduce by 50% at a time (e.g., from 2 → 1 replica)
           periodSeconds: 30  # Check every 30 seconds
 
 {{- end }}
