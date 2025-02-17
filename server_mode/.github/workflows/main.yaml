@@ -56,6 +56,8 @@ jobs:
           BUILD_NUMBER: ${{ env.BUILD_NUMBER }}
           GIT_COMMIT: ${{ env.GIT_COMMIT }}
           ENV_SERVER_CONTENT: ${{ vars.ENV_SERVER_CONTENT }}
+          ENV_USE_AWS_CERTIFICATE: ${{ vars.ENV_USE_AWS_CERTIFICATE }}
+          AWS_CERTIFICATE_ARN: ${{ secrets.AWS_CERTIFICATE_ARN }}
           SECRETS_SERVER_CONTENT: ${{ secrets.SECRETS_SERVER_CONTENT }}
         run: |
 
@@ -133,7 +135,9 @@ jobs:
             --set pullPolicy=Always \
             --namespace "$NAMESPACE" \
             --set image.tag="$IMAGE_TAG" \
-            --set $HELM_SET_STRING
+            --set $HELM_SET_STRING \
+            --set useAwsCertificate="${ENV_USE_AWS_CERTIFICATE:-false}" \
+            --set awsCertificateArn="${AWS_CERTIFICATE_ARN:-"undefined"}"
 
           # Restart all deployments (to ensure the db is reset)
           kubectl get deployments  -n "$NAMESPACE" -o name | xargs -n1 kubectl rollout restart -n "$NAMESPACE"

@@ -28,3 +28,6 @@ redis:
   externalPort: 6379
 
 pullPolicy: IfNotPresent
+
+useAwsCertificate: false
+awsCertificateArn: ""
