@@ -1,9 +1,0 @@
-apiVersion: networking.k8s.io/v1
-kind: IngressClass
-metadata:
-  name: alb
-  annotations:
-    # If you'd like this to be the default class for all Ingresses, set to "true":
-    # ingressclass.kubernetes.io/is-default-class: "true"
-spec:
-  controller: ingress.k8s.aws/alb
