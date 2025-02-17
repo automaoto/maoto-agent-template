@@ -3,15 +3,15 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: aws-load-balancer-controller
+  name: aws-ingress-controller
+  namespace: maoto-marketplace-namespace
   annotations:
     kubernetes.io/ingress.class: "alb"
-    # Tells the AWS Load Balancer Controller which certificate to use
-    # Replace the ARN with your ACM certificate ARN:
     alb.ingress.kubernetes.io/certificate-arn: {{ .Values.awsCertificateArn }}
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":4000}]'
     alb.ingress.kubernetes.io/scheme: internet-facing
 spec:
+  ingressClassName: alb
   rules:
     - host: mp.maoto.world
       http:
