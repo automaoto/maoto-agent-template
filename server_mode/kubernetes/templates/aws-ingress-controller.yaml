@@ -6,7 +6,6 @@ metadata:
   name: aws-ingress-controller
   namespace: maoto-marketplace-namespace
   annotations:
-    kubernetes.io/ingress.class: "alb"
     alb.ingress.kubernetes.io/certificate-arn: {{ .Values.awsCertificateArn }}
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":4000}]'
     alb.ingress.kubernetes.io/scheme: internet-facing
