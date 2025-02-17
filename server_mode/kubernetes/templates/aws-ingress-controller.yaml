@@ -3,7 +3,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: aws-ingress-controller
+  name: aws-load-balancer-controller
   annotations:
     kubernetes.io/ingress.class: "alb"
     # Tells the AWS Load Balancer Controller which certificate to use
