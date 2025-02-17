@@ -26,10 +26,10 @@ spec:
           averageUtilization: 80
   behavior:
     scaleDown:
-      stabilizationWindowSeconds: 60  # Reduce wait time for scaling down to 60s
+      stabilizationWindowSeconds: 30  # Reduce wait time for scaling down to 60s
       policies:
         - type: Percent
           value: 100  # Reduce by 50% at a time (e.g., from 2 → 1 replica)
-          periodSeconds: 30  # Check every 30 seconds
+          periodSeconds: 15  # Check every 30 seconds
 
 {{- end }}
