@@ -15,13 +15,13 @@ spec:
     - host: mp.maoto.world
       http:
         paths:
-          - path: /
+          - path: /graphql
             pathType: Prefix
             backend:
               service:
                 name: apiinterfaces
                 port:
-                  number: 8082
+                  number: 4000
   tls:
     - hosts:
         - mp.maoto.world
