@@ -29,10 +29,10 @@ spec:
           resources:
             requests:
               cpu: 100m
-              memory: 512Mi
+              memory: 256Mi
             limits:
               cpu: 500m
-              memory: 1024Mi
+              memory: 512Mi
       imagePullSecrets:
         - name: {{ .Values.global.registrySecret }}
 
