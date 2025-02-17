@@ -29,7 +29,7 @@ spec:
       stabilizationWindowSeconds: 30  # Reduce wait time for scaling down to 60s
       policies:
         - type: Percent
-          value: 100
+          value: 50
           periodSeconds: 15
 
 {{- end }}
