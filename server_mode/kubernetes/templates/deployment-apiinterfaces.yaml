@@ -44,15 +44,15 @@ spec:
             limits:
               cpu: 500m
               memory: 1024Mi
-          readinessProbe:
-            httpGet:
-              path: /healthz
-              port: {{ .Values.apiinterfaces.port }}
-            initialDelaySeconds: 5  # Wait before the first check
-            periodSeconds: 10  # Check every 10s
-            timeoutSeconds: 2  # Fail if it takes longer than 2s
-            failureThreshold: 3  # Mark pod as unready after 3 failures
-            successThreshold: 1  # One success marks it ready
+          # readinessProbe:
+          #   httpGet:
+          #     path: /healthz
+          #     port: {{ .Values.apiinterfaces.port }}
+          #   initialDelaySeconds: 5  # Wait before the first check
+          #   periodSeconds: 10  # Check every 10s
+          #   timeoutSeconds: 2  # Fail if it takes longer than 2s
+          #   failureThreshold: 3  # Mark pod as unready after 3 failures
+          #   successThreshold: 1  # One success marks it ready
       imagePullSecrets:
         - name: {{ .Values.global.registrySecret }}
 
