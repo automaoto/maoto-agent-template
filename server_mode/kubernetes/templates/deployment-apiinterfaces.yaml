@@ -48,6 +48,9 @@ spec:
             httpGet:
               path: /healthz
               port: {{ .Values.apiinterfaces.port }}
+              httpHeaders:
+                - name: Host
+                  value: {{ .Values.apiinterfaces.host }}.{{ .Values.global.namespace }}.svc.cluster.local
               scheme: HTTP
             initialDelaySeconds: 5  # Wait before the first check
             periodSeconds: 5  # Check every 10s
