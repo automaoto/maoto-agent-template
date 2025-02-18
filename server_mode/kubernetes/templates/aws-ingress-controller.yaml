@@ -13,7 +13,7 @@ metadata:
 spec:
   ingressClassName: alb
   rules:
-    - host: "*.maoto.world"
+    - host: mp.maoto.world
       http:
         paths:
           - path: /
@@ -25,7 +25,7 @@ spec:
                   number: 4000
   tls:
     - hosts:
-        - "*.maoto.world"
+        - mp.maoto.world
       secretName: dummy-tls-secret
 
 {{- end }}
