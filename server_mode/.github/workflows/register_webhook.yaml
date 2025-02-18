@@ -1,0 +1,25 @@
+name: Update Maoto Webhook
+
+on:
+  workflow_run:
+    workflows: ["Deploy"]
+    types:
+      - completed
+
+jobs:
+  update-webhook:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set Webhook URL
+        env:
+          API_KEY: ${{ secrets.MAOTO_API_KEY }}
+          MAOTO_INSTANCE_URL: ${{ vars.MAOTO_INSTANCE_URL }}
+          WEBHOOK_URL: ${{ vars.WEBHOOK_URL }}
+        run: |
+          curl -X POST "$MAOTO_INSTANCE_URL/set_webhook/$API_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{"url": "$WEBHOOK_URL"}'
