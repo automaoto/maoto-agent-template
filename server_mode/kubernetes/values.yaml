@@ -9,9 +9,9 @@ image:
 apiinterfaces:
   activate: false
   host: apiinterfaces
-  port: 8082
+  port: 80
   loadbalancer: false
-  externalPort: 4000
+  externalPort: 80
 
 postgresql:
   activate: false
