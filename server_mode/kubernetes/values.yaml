@@ -9,7 +9,7 @@ image:
 apiinterfaces:
   activate: false
   host: apiinterfaces
-  port: 80
+  port: 8080
   loadbalancer: false
   externalPort: 80
 
