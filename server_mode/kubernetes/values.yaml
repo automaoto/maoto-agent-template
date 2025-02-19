@@ -11,8 +11,6 @@ apiinterfaces:
   host: apiinterfaces
   port: 8080
   loadbalancer: false
-  activateNodePort: false
-  nodePort: 30001
   externalPort: 80
 
 postgresql:
