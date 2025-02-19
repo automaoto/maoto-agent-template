@@ -1,0 +1,17 @@
+{{- if .Values.apiinterfaces.activateNodePort }}
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.apiinterfaces.host }}-nodeport
+spec:
+  type: NodePort
+  selector:
+    app: {{ .Values.apiinterfaces.host }}
+  ports:
+    - port: {{ .Values.apiinterfaces.externalPort }}
+      targetPort: {{ .Values.apiinterfaces.port }}
+      nodePort: {{ .Values.apiinterfaces.nodePort }}
+      protocol: TCP
+
+{{- end }}

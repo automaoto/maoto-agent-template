@@ -73,6 +73,8 @@ HELM_SET_ARGS=()
 [ -n "${APIINTERFACES_LOADBALANCER:-}" ] && HELM_SET_ARGS+=("apiinterfaces.loadbalancer=${APIINTERFACES_LOADBALANCER}")
 [ -n "${DATABASEREDIS_ACTIVATE:-}" ] && HELM_SET_ARGS+=("redis.activate=${DATABASEREDIS_ACTIVATE}")
 [ -n "${DATABASEPOSTGRES_ACTIVATE:-}" ] && HELM_SET_ARGS+=("postgresql.activate=${DATABASEPOSTGRES_ACTIVATE}")
+[ -n "${APIINTERFACES_NODEPORT:-}" ] && HELM_SET_ARGS+=("apiinterfaces.nodePort=${APIINTERFACES_NODEPORT}")
+[ -n "${APIINTERFACES_ACTIVATENODEPORT:-}" ] && HELM_SET_ARGS+=("apiinterfaces.activateNodePort=${APIINTERFACES_ACTIVATENODEPORT}")
 HELM_SET_STRING=$(IFS=, ; echo "${HELM_SET_ARGS[*]}")
 
 # Create or update configmap for non-sensitive environment variables
