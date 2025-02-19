@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 load_dotenv('.secrets_resolver')
 load_dotenv('.env_resolver')
 
-agent = Maoto()
+agent = Maoto(connection_mode="no_nat")
 
 @agent.register_handler("Actioncall", "grab_ride_hauling")
 async def ride_hauling_action_handler(actioncall: Actioncall) -> str:
@@ -48,7 +48,7 @@ created_actions = agent.create_actions([
     ),
     NewAction(
         name="tada_ride_hauling",
-        parameters=json.dumps({'longitude': 'int', 'latitude': 'int', 'destination': 'str'}),
+        parameters=json.dumps({'longitude': 'int', 'latitude': 'int', 'destination': 'str'}), #TODO: change to stacked parameters (longitude, latitude are a pair of current location)
         description="Books a Tada ride.",
         tags=["Tada", "ride hauling"],
         cost=None,
@@ -56,4 +56,9 @@ created_actions = agent.create_actions([
     ),
 ])
 
-agent.start_server(blocking=True)
+agent.set_webhook()
+
+app = agent.start_server()
+# execute this with:
+# gunicorn -w 2 -k uvicorn.workers.UvicornWorker 01_resolver_server:app --bind 0.0.0.0:8082
+# ngrok https --scheme=htts --host-header="localhost:8082" 8082
