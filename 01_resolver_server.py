@@ -11,9 +11,17 @@ async def ride_hauling_action_handler(actioncall: Actioncall) -> str:
     print("Actioncall grab_ride_hauling")
     return "The grab ride was booked successfully. It will arrive at your location in 8 minutes."
 
+async def delayed_method(actioncall: Actioncall):
+    for i in range(10):
+        await asyncio.sleep(1)
+        print(f"Count {i+1}/10")
+    print("Delayed method")
+    await agent.refund_payment(actioncall.get_actioncall_id())
+
 @agent.register_handler("Actioncall", "tada_ride_hauling")
 async def ride_hauling_action_handler(actioncall: Actioncall) -> str:
     print("Actioncall tada_ride_hauling")
+    asyncio.create_task(delayed_method(actioncall))
     return "The tada ride was booked successfully. It will arrive at your location in 7 minutes."
 
 @agent.register_handler("Actioncall_fallback")
