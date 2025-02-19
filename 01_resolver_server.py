@@ -61,4 +61,4 @@ agent.set_webhook()
 app = agent.start_server()
 # execute this with:
 # gunicorn -w 2 -k uvicorn.workers.UvicornWorker 01_resolver_server:app --bind 0.0.0.0:8082
-# ngrok https --scheme=htts --host-header="localhost:8082" 8082
+# ngrok http --scheme=http --host-header="localhost:8082" 8082
