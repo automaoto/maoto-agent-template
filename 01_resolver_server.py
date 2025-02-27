@@ -9,9 +9,9 @@ load_dotenv('.env_resolver')
 
 agent = Maoto()
 
-@agent.register_handler("Actioncall", "grab_ride_hauling")
+@agent.register_handler("Actioncall", "grab_ride_hailing")
 async def actioncall_handler(actioncall: Actioncall):
-    print("Actioncall grab_ride_hauling")
+    print("Actioncall grab_ride_hailing")
     new_response = NewResponse(
         post_id=actioncall.get_post_id(),
         description="The grab ride was booked successfully. It will arrive at your location in 8 minutes."
@@ -25,9 +25,9 @@ async def delayed_method(actioncall: Actioncall):
     print("Delayed method")
     await agent.refund_payment(actioncall.get_actioncall_id())
 
-@agent.register_handler("Actioncall", "tada_ride_hauling")
+@agent.register_handler("Actioncall", "tada_ride_hailing")
 async def actioncall_handler(actioncall: Actioncall):
-    print("Actioncall tada_ride_hauling")
+    print("Actioncall tada_ride_hailing")
     asyncio.create_task(delayed_method(actioncall))
     new_response = NewResponse(
         post_id=actioncall.get_post_id(),
@@ -44,7 +44,7 @@ async def actioncall_handler_fallback(actioncall: Actioncall):
     )
     await agent.create_responses([new_response])
 
-@agent.register_handler("BidRequest", "grab_ride_hauling")
+@agent.register_handler("BidRequest", "grab_ride_hailing")
 async def bidrequest_handler(bid_request: BidRequest):
     print(f"Bidding")
     new_bid = BidResponse(
@@ -54,7 +54,7 @@ async def bidrequest_handler(bid_request: BidRequest):
     )
     await agent.create_bidresponses([new_bid])
 
-@agent.register_handler("BidRequest", "tada_ride_hauling")
+@agent.register_handler("BidRequest", "tada_ride_hailing")
 async def bidrequest_handler(bid_request: BidRequest):
     print(f"Bidding")
     new_bid = BidResponse(
@@ -77,18 +77,18 @@ async def bidrequest_handler_fallback(bid_request: BidRequest):
 
 created_actions = agent.create_actions([
     NewAction(
-        name="grab_ride_hauling",
+        name="grab_ride_hailing",
         parameters=json.dumps({'longitude': 'int', 'latitude': 'int', 'destination': 'str'}),
         description="Books a Grab ride.",
-        tags=["Grab", "ride hauling"],
+        tags=["Grab", "ride hailing"],
         cost=None,
         followup=False
     ),
     NewAction(
-        name="tada_ride_hauling",
+        name="tada_ride_hailing",
         parameters=json.dumps({'longitude': 'int', 'latitude': 'int', 'destination': 'str'}),
         description="Books a Tada ride.",
-        tags=["Tada", "ride hauling"],
+        tags=["Tada", "ride hailing"],
         cost=None,
         followup=False
     ),
