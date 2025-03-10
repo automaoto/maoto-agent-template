@@ -1,8 +1,8 @@
 from maoto_agent import *
 from dotenv import load_dotenv
 
-load_dotenv('.secrets_status')
-load_dotenv('.env_status')
+load_dotenv('.secrets_server')
+load_dotenv('.env_server')
 
 try:
     agent = Maoto(connection_mode="no_nat")

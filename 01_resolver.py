@@ -1,8 +1,10 @@
+# This example shows how to create a simple agent with polling
+
 from maoto_agent import *
 from dotenv import load_dotenv
 
-load_dotenv('.secrets_resolver')
-load_dotenv('.env_resolver')
+load_dotenv('.secrets_server')
+load_dotenv('.env_server')
 
 agent = Maoto()
 
@@ -92,3 +94,5 @@ created_actions = agent.create_actions([
 ])
 
 agent.start_polling()
+
+agent.delete_actions([action.get_action_id() for action in created_actions])

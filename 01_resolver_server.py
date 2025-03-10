@@ -1,11 +1,13 @@
+# This example shows how to create a simple agent without polling (see register file for webhook and action registration)
+
 from maoto_agent import *
 from starlette.routing import Route
 from starlette.responses import JSONResponse
 from starlette.applications import Starlette
 from dotenv import load_dotenv
 
-load_dotenv('.secrets_resolver')
-load_dotenv('.env_resolver')
+load_dotenv('.secrets_server')
+load_dotenv('.env_server')
 
 agent = Maoto()
 
@@ -74,25 +76,6 @@ async def bidrequest_handler_fallback(bid_request: BidRequest):
         cost=None
     )
     await agent.create_bidresponses([new_bid])
-
-created_actions = agent.create_actions([
-    NewAction(
-        name="grab_ride_hailing",
-        parameters=json.dumps({'longitude': 'int', 'latitude': 'int', 'destination': 'str'}),
-        description="Books a Grab ride.",
-        tags=["Grab", "ride hailing"],
-        cost=None,
-        followup=False
-    ),
-    NewAction(
-        name="tada_ride_hailing",
-        parameters=json.dumps({'longitude': 'int', 'latitude': 'int', 'destination': 'str'}),
-        description="Books a Tada ride.",
-        tags=["Tada", "ride hailing"],
-        cost=None,
-        followup=False
-    ),
-])
 
 app = Starlette(
     routes=[
