@@ -77,6 +77,26 @@ async def bidrequest_handler_fallback(bid_request: BidRequest):
     )
     await agent.create_bidresponses([new_bid])
 
+# this only here temporarily
+created_actions = agent.create_actions([
+    NewAction(
+        name="grab_ride_hailing",
+        parameters=json.dumps({'longitude': 'int', 'latitude': 'int', 'destination': 'str'}),
+        description="Books a Grab ride.",
+        tags=["Grab", "ride hailing"],
+        cost=None,
+        followup=False
+    ),
+    NewAction(
+        name="tada_ride_hailing",
+        parameters=json.dumps({'longitude': 'int', 'latitude': 'int', 'destination': 'str'}),
+        description="Books a Tada ride.",
+        tags=["Tada", "ride hailing"],
+        cost=None,
+        followup=False
+    ),
+])
+
 app = Starlette(
     routes=[
         Route("/maoto_agent", agent.handle_request, methods=["GET", "POST", "OPTIONS"]),
