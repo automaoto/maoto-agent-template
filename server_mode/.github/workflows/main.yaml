@@ -140,4 +140,4 @@ jobs:
             --set $HELM_SET_STRING
 
           # Restart all deployments (to ensure the db is reset)
-          kubectl get deployments  -n "$NAMESPACE" -o name | xargs -n1 kubectl rollout restart -n "$NAMESPACE"
+          #kubectl get deployments  -n "$NAMESPACE" -o name | xargs -n1 kubectl rollout restart -n "$NAMESPACE"
