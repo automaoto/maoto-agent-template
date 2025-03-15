@@ -37,6 +37,3 @@ agent = Maoto(assistant=False)
 #         followup=False
 #     ),
 # ])
-
-agent.set_webhook()
-print("Maoto webhook registered")

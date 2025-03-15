@@ -106,6 +106,3 @@ app = Starlette(
 # execute this with:
 # gunicorn -w 2 -k uvicorn.workers.UvicornWorker 01_resolver_server:app --bind 0.0.0.0:8080
 # ngrok http --scheme=http --host-header="localhost:8080" 8080
-
-# Note: the webhook should be only set once when starting the application. For this reason a post request is used (i.e. in github actions): see docs
-# for local testing of the webhook use local_register_webhooks.py to register the ngrok url with "/maoto_agent" in the end

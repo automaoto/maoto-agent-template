@@ -74,6 +74,7 @@ async def bidrequest_handler_fallback(bid_request: BidRequest):
     )
     await agent.create_bidresponses([new_bid])
 
+# This is only temporarily here until it can be moved elsewhere:
 created_actions = agent.create_actions([
     NewAction(
         name="grab_ride_hailing",

@@ -4,12 +4,19 @@ from dotenv import load_dotenv
 load_dotenv('.secrets_server')
 load_dotenv('.env_server')
 
+agent = Maoto(connection_mode="no_nat")
 try:
-    agent = Maoto(connection_mode="no_nat")
-    status = agent.check_status()
-    if not status:
-        raise Exception("Server is down.")
+    status_marketplace = agent.check_status_marketplace()
+    if not status_marketplace:
+        print("Marketplace is down.")
 except Exception as e:
-    print("Server is down.")
+    print("Marketplace is down.")
+
+try:
+    status_assistant = agent.check_status_assistant() # note: assistant temporarily not publicly available to save cost
+    if not status_assistant:
+        print("Assistant is down.")
+except Exception as e:
+    print("Assistant is down.")
 
 print("Server is up.")
