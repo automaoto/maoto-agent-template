@@ -10,6 +10,10 @@ EXPOSE 5432
 # Copy the initialization script into the Docker entrypoint initialization directory
 COPY init.sql /docker-entrypoint-initdb.d/
 
+# Copy migration script and make it executable
+COPY migrate.sh /app/
+RUN chmod +x /app/migrate.sh
+
 # Ensure pg_cron is loaded
 RUN echo "shared_preload_libraries = 'pg_cron'" >> /usr/share/postgresql/postgresql.conf.sample
 # Setting the cron database to default, it can also be the specific database you're using
