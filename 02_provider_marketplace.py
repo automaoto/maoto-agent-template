@@ -60,9 +60,14 @@ async def paymentrequest_handler(paymentrequest: PaymentRequest):
 
 
 
-# TODO: refactor package to be usable as fastapi package
+
 # TODO params and args consistent
 # TODO check if curl webhook set still works
 # TODO: enable referencing of offercallables, etc. in offercallresponses
-# TODO everything async
+
 # TODO: add resolver_id to OfferResponse
+
+# TODO everything async (httpx)
+# TODO: refactor package to be usable as fastapi or starlette package (inherites from it)
+
+# TODO add embedding for specific openai model
