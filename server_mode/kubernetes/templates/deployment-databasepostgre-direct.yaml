@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: databasepostgre
+  labels:
+    version: latest
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: databasepostgre
+  template:
+    metadata:
+      labels:
+        app: databasepostgre
+        version: latest
+    spec:
+      containers:
+        - name: databasepostgre
+          image: databasepostgre:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: my-env-config
+            - secretRef:
+                name: my-env-secrets
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/bin/sh", "-c", "/app/migrate.sh"] 

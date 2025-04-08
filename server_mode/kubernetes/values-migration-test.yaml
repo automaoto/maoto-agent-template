@@ -1,0 +1,16 @@
+global:
+  dockerRegistry: ""
+  registrySecret: registry-secret
+  revisionHistoryLimit: 3
+
+image:
+  tag: "latest"
+
+postgresql:
+  activate: true
+  host: databasepostgre
+  port: 5432
+  loadbalancer: false
+  externalPort: 5432
+
+pullPolicy: Never 
