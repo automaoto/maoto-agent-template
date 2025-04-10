@@ -5,6 +5,8 @@ __pycache__/
 .DS_Store
 *.DS_Store
 
+myagent.py
+
 # ignore all folders with name maoto-agent
 **/maoto-agent/
 **/workdir/
