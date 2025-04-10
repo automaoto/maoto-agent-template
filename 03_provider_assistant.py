@@ -12,7 +12,6 @@ def pausermessage_handler(pausermessage: PAUserMessage):
     ui_id = pausermessage.ui_id
     text = pausermessage.text
     # this is the message to the user
-    pass
 
 # This is how to send a message to the assistant
 """
@@ -24,7 +23,7 @@ maoto.send_to_assistant(
 )
 """
 
-@maoto.register_handler(PALocationRequest) # TODO. this is not in tyepe hint
+@maoto.register_handler(PALocationRequest)
 def palocationrequest_handler(palocationrequest: PALocationRequest):
     # get location from user through user interface
     
