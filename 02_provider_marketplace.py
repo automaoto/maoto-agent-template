@@ -16,8 +16,8 @@ await maoto.send_intent(
 )"
 """
 
-@maoto.register_handler(Response)
-async def response_handler(response: Response):
+@maoto.register_handler(IntentResponse)
+async def response_handler(response: IntentResponse):
     print(f"Received response: {response}")
     # this might contain long text with offercallables, offerreferences, missinginfos, etc.
 
