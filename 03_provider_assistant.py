@@ -55,3 +55,7 @@ maoto.send_to_assistant(
     )
 )
 """
+
+# execute this with:
+# uvicorn 02_provider_assistant:maoto --host 0.0.0.0 --port 8080 --workers 2
+# ngrok http --scheme=http --host-header="localhost:8080" 8080

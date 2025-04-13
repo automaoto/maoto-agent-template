@@ -53,7 +53,7 @@ async def paymentrequest_handler(paymentrequest: PaymentRequest):
     # This is to open the payment link in browser
 
 # execute this with:
-# gunicorn -w 2 -k uvicorn.workers.UvicornWorker 02_provider_marketplace:maoto --bind 0.0.0.0:8080
+# uvicorn 02_provider_marketplace:maoto --host 0.0.0.0 --port 8080 --workers 2
 # ngrok http --scheme=http --host-header="localhost:8080" 8080
 
 
@@ -61,13 +61,8 @@ async def paymentrequest_handler(paymentrequest: PaymentRequest):
 
 
 
-# TODO params and args consistent
-# TODO check if curl webhook set still works
 # TODO: enable referencing of offercallables, etc. in offercallresponses
 
 # TODO: add resolver_id to OfferResponse
-
-# TODO everything async (httpx)
-# TODO: refactor package to be usable as fastapi or starlette package (inherites from it)
 
 # TODO add embedding for specific openai model

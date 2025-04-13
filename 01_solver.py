@@ -62,5 +62,5 @@ async def offerreferencecostrequest_handler(offerreferencecostrequest: OfferRefe
     )
 
 # execute this with:
-# gunicorn -w 2 -k uvicorn.workers.UvicornWorker 01_solver:maoto --bind 0.0.0.0:8080
+# uvicorn 01_solver:maoto --host 0.0.0.0 --port 8080 --workers 2
 # ngrok http --scheme=http --host-header="localhost:8080" 8080
