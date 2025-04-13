@@ -11,7 +11,8 @@ maoto = Maoto()
 # It is therefore strongly recommended to set it in a dedicated setup workflow (see github workflows)
 
 async def main():
-    await maoto.set_webhook()
+    msg = await maoto.set_webhook()
+    print(msg)
 
 asyncio.run(main())
 
