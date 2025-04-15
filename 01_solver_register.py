@@ -28,39 +28,45 @@ async def main():
         )
     )
 
-    # offercallable = await maoto.register(
-    #     NewOfferCallable(
-    #         resolver_id=rndid2,
-    #         description=f"Books a Grab ride.{curr_time}",
-    #         params={
-    #             "current_user_location": {
-    #                 "longitude": "int",
-    #                 "latitude": "int"
-    #             },
-    #             "destination": "str"
-    #         },
-    #         tags=["Grab", "ride hailing"],
-    #         followup=False, # OfferCallable is not hidden
-    #         cost=None # agent will be asked for cost
-    #     )
-    # )
+    await maoto.unregister(skill)
 
-    # offerreference = await maoto.register(
-    #     NewOfferReference(
-    #         resolver_id=rndid3,
-    #         description=f"Books a Tada ride.{curr_time}",
-    #         params={
-    #             "current_user_location": {
-    #                 "longitude": "int",
-    #                 "latitude": "int"
-    #             },
-    #             "destination": "str"
-    #         },
-    #         tags=["Tada", "ride hailing"],
-    #         followup=False, # OfferReference is not hidden
-    #         cost=None, # agent will be asked for cost
-    #         url=None
-    #     )
-    # )
+    offercallable = await maoto.register(
+        NewOfferCallable(
+            resolver_id=rndid2,
+            description=f"Books a Grab ride.{curr_time}",
+            params={
+                "current_user_location": {
+                    "longitude": "int",
+                    "latitude": "int"
+                },
+                "destination": "str"
+            },
+            tags=["Grab", "ride hailing"],
+            followup=False, # OfferCallable is not hidden
+            cost=None # agent will be asked for cost
+        )
+    )
+
+    await maoto.unregister(offercallable)
+
+    offerreference = await maoto.register(
+        NewOfferReference(
+            resolver_id=rndid3,
+            description=f"Books a Tada ride.{curr_time}",
+            params={
+                "current_user_location": {
+                    "longitude": "int",
+                    "latitude": "int"
+                },
+                "destination": "str"
+            },
+            tags=["Tada", "ride hailing"],
+            followup=False, # OfferReference is not hidden
+            cost=None, # agent will be asked for cost
+            url=None
+        )
+    )
+
+    await maoto.unregister(offerreference)
 
 asyncio.run(main())
