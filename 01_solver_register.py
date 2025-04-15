@@ -23,16 +23,18 @@ async def main():
                 },
                 "destination": "str"
             },
-            resolver_id=rndid1,
+            solver_id=rndid1,
             tags=["Grab", "Tada", "Zig", "ride hailing"],
         )
     )
 
-    await maoto.unregister(skill)
+    # await maoto.unregister(skill)
+    # or alternatively:
+    await maoto.unregister(solver_id=rndid1, obj_type=Skill)
 
     offercallable = await maoto.register(
         NewOfferCallable(
-            resolver_id=rndid2,
+            solver_id=rndid2,
             description=f"Books a Grab ride.{curr_time}",
             params={
                 "current_user_location": {
@@ -48,10 +50,12 @@ async def main():
     )
 
     await maoto.unregister(offercallable)
+    # or alternatively:
+    await maoto.unregister(solver_id=rndid2, obj_type=OfferCallable)
 
     offerreference = await maoto.register(
         NewOfferReference(
-            resolver_id=rndid3,
+            solver_id=rndid3,
             description=f"Books a Tada ride.{curr_time}",
             params={
                 "current_user_location": {
@@ -67,6 +71,8 @@ async def main():
         )
     )
 
-    await maoto.unregister(offerreference)
+    # await maoto.unregister(offerreference)
+    # or alternatively:
+    await maoto.unregister(solver_id=rndid3, obj_type=OfferReference)
 
 asyncio.run(main())

@@ -63,6 +63,6 @@ async def paymentrequest_handler(paymentrequest: PaymentRequest):
 
 # TODO: enable referencing of offercallables, etc. in offercallresponses
 
-# TODO: add resolver_id to OfferResponse
+# TODO: add solver_id to OfferResponse
 
 # TODO add embedding for specific openai model

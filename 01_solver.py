@@ -8,7 +8,7 @@ maoto = Maoto()
 
 @maoto.register_handler(OfferCall)
 async def offercall_handler(offercall: OfferCall):
-    print(f"Agent internal id: {offercall.resolver_id}")
+    print(f"Agent internal id: {offercall.solver_id}")
     maoto.send_response(
         NewOfferCallResponse(
             offercall_id=offercall.id,
@@ -19,7 +19,7 @@ async def offercall_handler(offercall: OfferCall):
 
 @maoto.register_handler(OfferRequest)
 async def offerrequest_handler(offerrequest: OfferRequest):
-    print(f"Agent internal id: {offerrequest.resolver_id}")
+    print(f"Agent internal id: {offerrequest.solver_id}")
     maoto.send_response(
         NewOfferResponse(
             intent_id=offerrequest.intent.id,
@@ -40,7 +40,7 @@ async def offerrequest_handler(offerrequest: OfferRequest):
 
 @maoto.register_handler(OfferCallableCostRequest)
 async def offercallablecostrequest_handler(offercallablecostrequest: OfferCallableCostRequest):
-    print(f"Agent internal id: {offercallablecostrequest.resolver_id}")
+    print(f"Agent internal id: {offercallablecostrequest.solver_id}")
     maoto.send_response(
         NewOfferCallableCostResponse(
             offercallable_id=offercallablecostrequest.offercallable_id,
@@ -51,7 +51,7 @@ async def offercallablecostrequest_handler(offercallablecostrequest: OfferCallab
 
 @maoto.register_handler(OfferReferenceCostRequest)
 async def offerreferencecostrequest_handler(offerreferencecostrequest: OfferReferenceCostRequest):
-    print(f"Agent internal id: {offerreferencecostrequest.resolver_id}")
+    print(f"Agent internal id: {offerreferencecostrequest.solver_id}")
     maoto.send_response(
         NewOfferReferenceCostResponse(
             offerreference_id=offerreferencecostrequest.offerreference_id,
