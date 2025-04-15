@@ -18,7 +18,7 @@ def pausermessage_handler(pausermessage: PAUserMessage):
 def palocationrequest_handler(palocationrequest: PALocationRequest):
     # get location from user through user interface
     
-    maoto.send_to_assistant(
+    await maoto.send_to_assistant(
         PALocationResponse(
             ui_id=str(uuid.uuid4()),
             location=Location(

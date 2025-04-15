@@ -18,7 +18,7 @@ async def main():
 
     # This is how to put the assistant into technical support mode
     """
-    maoto.send_to_assistant(
+    await maoto.send_to_assistant(
         PASupportRequest(
             ui_id=str(uuid.uuid4()),
             text="Please provide your current location.",
@@ -28,7 +28,7 @@ async def main():
 
     # This is how to reset the assistant conversation for the specific user
     """
-    maoto.send_to_assistant(
+    await maoto.send_to_assistant(
         PANewConversation(
             ui_id=str(uuid.uuid4()),
         )
