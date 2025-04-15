@@ -9,7 +9,7 @@ maoto = Maoto()
 @maoto.register_handler(OfferCall)
 async def offercall_handler(offercall: OfferCall):
     print(f"Agent internal id: {offercall.solver_id}")
-    maoto.send_response(
+    await maoto.send_response(
         NewOfferCallResponse(
             offercall_id=offercall.id,
             offercallable_id=offercall.offercallable_id,
@@ -20,7 +20,7 @@ async def offercall_handler(offercall: OfferCall):
 @maoto.register_handler(OfferRequest)
 async def offerrequest_handler(offerrequest: OfferRequest):
     print(f"Agent internal id: {offerrequest.solver_id}")
-    maoto.send_response(
+    await maoto.send_response(
         NewOfferResponse(
             intent_id=offerrequest.intent.id,
             offerreference_ids=[],
@@ -41,7 +41,7 @@ async def offerrequest_handler(offerrequest: OfferRequest):
 @maoto.register_handler(OfferCallableCostRequest)
 async def offercallablecostrequest_handler(offercallablecostrequest: OfferCallableCostRequest):
     print(f"Agent internal id: {offercallablecostrequest.solver_id}")
-    maoto.send_response(
+    await maoto.send_response(
         NewOfferCallableCostResponse(
             offercallable_id=offercallablecostrequest.offercallable_id,
             intent_id=offercallablecostrequest.intent.id,
@@ -52,7 +52,7 @@ async def offercallablecostrequest_handler(offercallablecostrequest: OfferCallab
 @maoto.register_handler(OfferReferenceCostRequest)
 async def offerreferencecostrequest_handler(offerreferencecostrequest: OfferReferenceCostRequest):
     print(f"Agent internal id: {offerreferencecostrequest.solver_id}")
-    maoto.send_response(
+    await maoto.send_response(
         NewOfferReferenceCostResponse(
             offerreference_id=offerreferencecostrequest.offerreference_id,
             intent_id=offerreferencecostrequest.intent.id,
@@ -62,5 +62,5 @@ async def offerreferencecostrequest_handler(offerreferencecostrequest: OfferRefe
     )
 
 # execute this with:
-# uvicorn 01_solver:maoto --host 0.0.0.0 --port 8080 --workers 2
+# uvicorn 01_solver:maoto --host 0.0.0.0 --port 30000 --workers 2
 # ngrok http --scheme=http --host-header="localhost:8080" 8080

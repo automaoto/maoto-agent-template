@@ -28,6 +28,8 @@ async def main():
         )
     )
 
+    # await maoto.unregister(id=skill.id)
+    # or alternatively:
     # await maoto.unregister(skill)
     # or alternatively:
     await maoto.unregister(solver_id=rndid1, obj_type=Skill)
@@ -49,7 +51,9 @@ async def main():
         )
     )
 
-    await maoto.unregister(offercallable)
+    # await maoto.unregister(id=offercallable.id)
+    # or alternatively:
+    # await maoto.unregister(offercallable)
     # or alternatively:
     await maoto.unregister(solver_id=rndid2, obj_type=OfferCallable)
 
@@ -71,6 +75,8 @@ async def main():
         )
     )
 
+    # await maoto.unregister(id=offerreference.id)
+    # or alternatively:
     # await maoto.unregister(offerreference)
     # or alternatively:
     await maoto.unregister(solver_id=rndid3, obj_type=OfferReference)
