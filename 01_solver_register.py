@@ -11,10 +11,11 @@ async def main():
     rndid1 = uuid.uuid5(uuid.NAMESPACE_DNS, "rh1")
     rndid2 = uuid.uuid5(uuid.NAMESPACE_DNS, "rh2")
     rndid3 = uuid.uuid5(uuid.NAMESPACE_DNS, "rh3")
+    curr_time = datetime.now()
 
-    await maoto.register(
+    skill = await maoto.register(
         NewSkill(
-            description="Books a ride using ride-hailing services.",
+            description=f"Books a ride using ride-hailing services.{curr_time}",
             params={
                 "current_user_location": {
                     "longitude": "int",
@@ -27,13 +28,15 @@ async def main():
         )
     )
 
-    # await maoto.register(
+    # offercallable = await maoto.register(
     #     NewOfferCallable(
     #         resolver_id=rndid2,
-    #         description="Books a Grab ride.",
-    #         args={
-    #             "longitude": "int",
-    #             "latitude": "int",
+    #         description=f"Books a Grab ride.{curr_time}",
+    #         params={
+    #             "current_user_location": {
+    #                 "longitude": "int",
+    #                 "latitude": "int"
+    #             },
     #             "destination": "str"
     #         },
     #         tags=["Grab", "ride hailing"],
@@ -42,13 +45,15 @@ async def main():
     #     )
     # )
 
-    # await maoto.register(
+    # offerreference = await maoto.register(
     #     NewOfferReference(
     #         resolver_id=rndid3,
-    #         description="Books a Tada ride.",
-    #         args={
-    #             "longitude": "int",
-    #             "latitude": "int",
+    #         description=f"Books a Tada ride.{curr_time}",
+    #         params={
+    #             "current_user_location": {
+    #                 "longitude": "int",
+    #                 "latitude": "int"
+    #             },
     #             "destination": "str"
     #         },
     #         tags=["Tada", "ride hailing"],
