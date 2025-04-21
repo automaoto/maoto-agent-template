@@ -8,18 +8,18 @@ maoto = Maoto()
 
 @maoto.register_handler(OfferCall)
 async def offercall_handler(offercall: OfferCall):
-    print(f"Agent internal id: {offercall.solver_id}")
+    print(f"Received offercall: {offercall}")
     await maoto.send_response(
         NewOfferCallResponse(
             offercall_id=offercall.id,
-            offercallable_id=offercall.offercallable_id,
+            offercallable_id=str(offercall.offercallable_id),
             description="The ride was booked successfully. It will arrive at your location in 5 minutes."
         )
     )
 
 @maoto.register_handler(OfferRequest)
 async def offerrequest_handler(offerrequest: OfferRequest):
-    print(f"Agent internal id: {offerrequest.solver_id}")
+    print(f"Received offerrequest:  {offerrequest}")
     await maoto.send_response(
         NewOfferResponse(
             intent_id=offerrequest.intent.id,
@@ -33,14 +33,33 @@ async def offerrequest_handler(offerrequest: OfferRequest):
                     description="Please provide your destination."
                 )
             ],
-            newoffercallables=[],
-            newofferreferences=[]
+            newoffercallables=[
+                NewOfferCallable(
+                    solver_id=None,
+                    description=f"Ride to Marina Bay Sands {datetime.now()}",
+                    params={"passenger name": "str"},
+                    tags=["ride", "taxi"],
+                    followup=True,
+                    cost=20.00,
+                )
+            ],
+            newofferreferences=[
+                NewOfferReference(
+                    solver_id=None,
+                    description=f"Ride to Marina Bay Sands {datetime.now()}",
+                    params={"passenger name": "str"},
+                    tags=["ride", "taxi"],
+                    url="https://www.tada.com/ride/price/1234567890",
+                    cost=15.00,
+                    followup=True,
+                )
+            ]
         )
     )
 
 @maoto.register_handler(OfferCallableCostRequest)
 async def offercallablecostrequest_handler(offercallablecostrequest: OfferCallableCostRequest):
-    print(f"Agent internal id: {offercallablecostrequest.solver_id}")
+    print(f"Received offercallablecostrequest: {offercallablecostrequest}")
     await maoto.send_response(
         NewOfferCallableCostResponse(
             offercallable_id=offercallablecostrequest.offercallable_id,
@@ -51,7 +70,7 @@ async def offercallablecostrequest_handler(offercallablecostrequest: OfferCallab
 
 @maoto.register_handler(OfferReferenceCostRequest)
 async def offerreferencecostrequest_handler(offerreferencecostrequest: OfferReferenceCostRequest):
-    print(f"Agent internal id: {offerreferencecostrequest.solver_id}")
+    print(f"Received offerreferencecostrequest: {offerreferencecostrequest}")
     await maoto.send_response(
         NewOfferReferenceCostResponse(
             offerreference_id=offerreferencecostrequest.offerreference_id,

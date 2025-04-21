@@ -8,14 +8,39 @@ maoto = Maoto()
 
 # Receiving assistant messages
 @maoto.register_handler(PAUserMessage)
-def pausermessage_handler(pausermessage: PAUserMessage):
+async def pausermessage_handler(pausermessage: PAUserMessage):
     print(f"Received message from user {pausermessage.ui_id}: {pausermessage.text}")
-    # this is the message to the user
+    
+    await maoto.send_to_assistant(
+        PAUserResponse(
+            ui_id=str(uuid.uuid4()),
+            text="Tell me a joke!",
+        )
+    )
+
+    # This is how to put the assistant into technical support mode
+    """
+    await maoto.send_to_assistant(
+        PASupportRequest(
+            ui_id=str(uuid.uuid4()),
+            text="Please provide your current location.",
+        )
+    )
+    """
+
+    # This is how to reset the assistant conversation for the specific user
+    """
+    await maoto.send_to_assistant(
+        PANewConversation(
+            ui_id=str(uuid.uuid4()),
+        )
+    )
+    """
 
 # To handle the PALocationRequest send by the assistant and allow ui integration:
 '''
 @maoto.register_handler(PALocationRequest)
-def palocationrequest_handler(palocationrequest: PALocationRequest):
+async def palocationrequest_handler(palocationrequest: PALocationRequest):
     # get location from user through user interface
     
     await maoto.send_to_assistant(
