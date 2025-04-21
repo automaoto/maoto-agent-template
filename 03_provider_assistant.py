@@ -55,5 +55,5 @@ async def palocationrequest_handler(palocationrequest: PALocationRequest):
 '''
 
 # execute this with:
-# uvicorn 03_provider_assistant_1:maoto --host 0.0.0.0 --port 30000 --workers 2
+# uvicorn 03_provider_assistant:maoto --host 0.0.0.0 --port 8080 --workers 2
 # ngrok http --scheme=http --host-header="localhost:8080" 8080
