@@ -56,13 +56,3 @@ async def paymentrequest_handler(paymentrequest: PaymentRequest):
 # uvicorn 02_provider_marketplace:maoto --host 0.0.0.0 --port 8080 --workers 2
 # ngrok http --scheme=http --host-header="localhost:8080" 8080
 
-
-
-
-
-
-# TODO: enable referencing of offercallables, etc. in offercallresponses
-
-# TODO: add solver_id to OfferResponse
-
-# TODO add embedding for specific openai model
